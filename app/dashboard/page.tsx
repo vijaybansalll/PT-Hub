@@ -26,6 +26,8 @@ import { cn } from "@/app/utils/cn";
 import { Toaster, toast } from "sonner";
 import { Product } from "@/app/data";
 import Logo from "@/components/Logo";
+import StatCard from "@/components/StatCard";
+import FormInput from "@/components/FormInput";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -302,6 +304,96 @@ export default function DashboardPage() {
     return result;
   }, [products, searchQuery, selectedCategory, sortBy]);
 
+  // Reusable configuration arrays for mapping UI components
+  const statCardsConfig = useMemo(() => [
+    {
+      id: "total",
+      title: "Total Items",
+      value: stats.total,
+      subtitle: "Active products in catalog",
+      icon: <LuLayers className="w-4 h-4" />,
+      borderColor: "border-l-blue-500",
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-600"
+    },
+    {
+      id: "new",
+      title: "New Arrivals",
+      value: stats.newItems,
+      subtitle: "Flagged as New",
+      icon: <LuSparkles className="w-4 h-4" />,
+      borderColor: "border-l-emerald-500",
+      iconBg: "bg-emerald-50",
+      iconColor: "text-emerald-600",
+      subtitleColor: "text-emerald-600 font-semibold"
+    },
+    {
+      id: "popular",
+      title: "Popular Picks",
+      value: stats.popularItems,
+      subtitle: "Flagged as Popular",
+      icon: <LuTrendingUp className="w-4 h-4" />,
+      borderColor: "border-l-amber-500",
+      iconBg: "bg-amber-50",
+      iconColor: "text-amber-600",
+      subtitleColor: "text-amber-600 font-semibold"
+    }
+  ], [stats]);
+
+  const formFields = [
+    {
+      id: "name",
+      label: "Product Name *",
+      type: "text",
+      placeholder: "e.g. Premium Silk Scarf",
+      value: formName,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormName(e.target.value),
+      required: true,
+      span: "sm:col-span-2"
+    },
+    {
+      id: "price",
+      label: "Price ($) *",
+      type: "number",
+      step: "0.01",
+      placeholder: "29.99",
+      value: formPrice,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormPrice(e.target.value),
+      required: true,
+      icon: <LuDollarSign className="w-3.5 h-3.5" />
+    },
+    {
+      id: "rating",
+      label: "Initial Rating (0-5)",
+      type: "number",
+      step: "0.1",
+      min: "0",
+      max: "5",
+      placeholder: "4.5",
+      value: formRating,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormRating(e.target.value)
+    },
+    {
+      id: "reviewsCount",
+      label: "Initial Reviews",
+      type: "number",
+      min: "0",
+      placeholder: "15",
+      value: formReviewsCount,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormReviewsCount(e.target.value)
+    },
+    {
+      id: "video",
+      label: "Video Resource URL",
+      type: "text",
+      placeholder: "e.g. /videos/utilities/01.mp4",
+      value: formVideo,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormVideo(e.target.value),
+      icon: <LuVideo className="w-3.5 h-3.5" />,
+      span: "sm:col-span-2"
+    }
+  ];
+
   // Render spinner while checking authentication (Shadcn loading spinner styling)
   if (checkingSession) {
     return (
@@ -368,41 +460,9 @@ export default function DashboardPage() {
 
         {/* Statistical Cards Panel (Enhanced & User Friendly) */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {/* Total Items Card */}
-          <div className="rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm p-5 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border-l-4 border-l-blue-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-zinc-550 text-xs font-bold">Total Items</span>
-              <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
-                <LuLayers className="w-4 h-4" />
-              </div>
-            </div>
-            <div className="text-2xl font-bold tracking-tight text-zinc-900">{stats.total}</div>
-            <p className="text-[10px] text-zinc-400 mt-1 font-medium">Active products in catalog</p>
-          </div>
-
-          {/* New Arrivals Card */}
-          <div className="rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm p-5 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border-l-4 border-l-emerald-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-zinc-550 text-xs font-bold">New Arrivals</span>
-              <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
-                <LuSparkles className="w-4 h-4" />
-              </div>
-            </div>
-            <div className="text-2xl font-bold tracking-tight text-zinc-900">{stats.newItems}</div>
-            <p className="text-[10px] text-emerald-600 mt-1 font-semibold">Flagged as New</p>
-          </div>
-
-          {/* Popular Picks Card */}
-          <div className="rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm p-5 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border-l-4 border-l-amber-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-zinc-550 text-xs font-bold">Popular Picks</span>
-              <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
-                <LuTrendingUp className="w-4 h-4" />
-              </div>
-            </div>
-            <div className="text-2xl font-bold tracking-tight text-zinc-900">{stats.popularItems}</div>
-            <p className="text-[10px] text-amber-600 mt-1 font-semibold">Flagged as Popular</p>
-          </div>
+          {statCardsConfig.map((card) => (
+            <StatCard key={card.id} {...card} />
+          ))}
 
           {/* Categories Card with Visual Progress Bars */}
           <div className="rounded-xl border border-zinc-200 bg-white text-zinc-950 shadow-sm p-5 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border-l-4 border-l-indigo-500">
@@ -758,22 +818,7 @@ export default function DashboardPage() {
 
               <form onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto px-6 pb-6 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name */}
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Product Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formName}
-                      onChange={(e) => setFormName(e.target.value)}
-                      placeholder="e.g. Premium Silk Scarf"
-                      className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950"
-                    />
-                  </div>
-
-                  {/* Category */}
+                  {/* Category Selection */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold tracking-tight text-zinc-500">
                       Category *
@@ -789,77 +834,10 @@ export default function DashboardPage() {
                     </select>
                   </div>
 
-                  {/* Price */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Price ($) *
-                    </label>
-                    <div className="relative">
-                      <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-450">
-                        <LuDollarSign className="w-3.5 h-3.5" />
-                      </span>
-                      <input
-                        type="number"
-                        step="0.01"
-                        required
-                        value={formPrice}
-                        onChange={(e) => setFormPrice(e.target.value)}
-                        placeholder="29.99"
-                        className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 pl-8 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Rating */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Initial Rating (0-5)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0"
-                      max="5"
-                      value={formRating}
-                      onChange={(e) => setFormRating(e.target.value)}
-                      placeholder="4.5"
-                      className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950"
-                    />
-                  </div>
-
-                  {/* Reviews Count */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Initial Reviews
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={formReviewsCount}
-                      onChange={(e) => setFormReviewsCount(e.target.value)}
-                      placeholder="15"
-                      className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950"
-                    />
-                  </div>
-
-                  {/* Video URL */}
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Video Resource URL
-                    </label>
-                    <div className="relative">
-                      <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-450">
-                        <LuVideo className="w-3.5 h-3.5" />
-                      </span>
-                      <input
-                        type="text"
-                        value={formVideo}
-                        onChange={(e) => setFormVideo(e.target.value)}
-                        placeholder="e.g. /videos/utilities/01.mp4"
-                        className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 pl-8 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950"
-                      />
-                    </div>
-                  </div>
+                  {/* Standard Form Inputs */}
+                  {formFields.map((field) => (
+                    <FormInput key={field.id} {...field} />
+                  ))}
 
                   {/* Description */}
                   <div className="space-y-1.5 sm:col-span-2">

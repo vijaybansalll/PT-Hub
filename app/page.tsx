@@ -12,53 +12,21 @@ import Faqs from "@/components/Faqs";
 import Cta from "@/components/Cta";
 import Testimonials from "@/components/Testimonials";
 import FloatingContact from "@/components/FloatingContact";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import { Product } from "./data";
 import { getProducts } from "@/app/utils/products";
+import { useFavorites } from "@/app/hooks/useFavorites";
+import { handleBuyNow } from "@/app/utils/checkout";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { favorites, toggleFavorite } = useFavorites();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  // Initialize client-side favorites and combined products
+  // Initialize products
   useEffect(() => {
     getProducts().then(setProducts);
-
-    const savedFavs = localStorage.getItem("aura-favorites");
-    if (savedFavs) {
-      try {
-        const parsed = JSON.parse(savedFavs);
-        if (parsed && Array.isArray(parsed)) {
-          setTimeout(() => {
-            setFavorites(parsed);
-          }, 0);
-        }
-      } catch (e) {
-        console.error("Error loading favorites", e);
-      }
-    }
   }, []);
-
-  const toggleFavorite = (productId: string, e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    let updated: string[];
-    if (favorites.includes(productId)) {
-      updated = favorites.filter((id) => id !== productId);
-      toast("Removed from Favourites", {
-        icon: "💔",
-      });
-    } else {
-      updated = [...favorites, productId];
-      toast.success("Added to Favourites!", {
-        icon: "💖",
-      });
-    }
-    setFavorites(updated);
-    localStorage.setItem("aura-favorites", JSON.stringify(updated));
-  };
 
   // Get the latest top 6 products (using isNew and slicing to 6)
   const latestProducts = useMemo(() => {
@@ -132,18 +100,7 @@ export default function Home() {
           }
           onBuyNow={() => {
             if (selectedProduct) {
-              const message = `Hello! I would like to purchase the *${selectedProduct.name}* (${selectedProduct.category}) for *$${selectedProduct.price.toFixed(2)}*.`;
-              const whatsappNum =
-                process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919417212422";
-              const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(message)}`;
-              toast.success("Redirecting to WhatsApp Checkout...", {
-                description: `Opening chat to buy ${selectedProduct.name}.`,
-                icon: "🛍️",
-              });
-              setTimeout(() => {
-                window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-              }, 600);
-              setSelectedProduct(null);
+              handleBuyNow(selectedProduct, () => setSelectedProduct(null));
             }
           }}
         />

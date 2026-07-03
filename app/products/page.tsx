@@ -9,10 +9,12 @@ import ProductCard from "@/components/ProductCard";
 import ProductModal from "@/components/ProductModal";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import { Product } from "../data";
 import { getProducts } from "@/app/utils/products";
 import { cn } from "@/app/utils/cn";
+import { useFavorites } from "@/app/hooks/useFavorites";
+import { handleBuyNow } from "@/app/utils/checkout";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
@@ -22,7 +24,7 @@ function ProductsContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("default");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { favorites, toggleFavorite } = useFavorites();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Pagination State
@@ -36,44 +38,10 @@ function ProductsContent() {
     }
   }, [initialCategory]);
 
-  // Initialize client-side favorites and combined products
+  // Initialize products
   useEffect(() => {
     getProducts().then(setProducts);
-
-    const savedFavs = localStorage.getItem("aura-favorites");
-    if (savedFavs) {
-      try {
-        const parsed = JSON.parse(savedFavs);
-        if (parsed && Array.isArray(parsed)) {
-          setTimeout(() => {
-            setFavorites(parsed);
-          }, 0);
-        }
-      } catch (e) {
-        console.error("Error loading favorites", e);
-      }
-    }
   }, []);
-
-  const toggleFavorite = (productId: string, e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    let updated: string[];
-    if (favorites.includes(productId)) {
-      updated = favorites.filter((id) => id !== productId);
-      toast("Removed from Favourites", {
-        icon: "💔",
-      });
-    } else {
-      updated = [...favorites, productId];
-      toast.success("Added to Favourites!", {
-        icon: "💖",
-      });
-    }
-    setFavorites(updated);
-    localStorage.setItem("aura-favorites", JSON.stringify(updated));
-  };
 
   const categories = ["All", "Utilities", "Jewellery", "Dresses"];
 
@@ -287,18 +255,7 @@ function ProductsContent() {
         }
         onBuyNow={() => {
           if (selectedProduct) {
-            const message = `Hello! I would like to purchase the *${selectedProduct.name}* (${selectedProduct.category}) for *$${selectedProduct.price.toFixed(2)}*.`;
-            const whatsappNum =
-              process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919417212422";
-            const whatsappUrl = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(message)}`;
-            toast.success("Redirecting to WhatsApp Checkout...", {
-              description: `Opening chat to buy ${selectedProduct.name}.`,
-              icon: "🛍️",
-            });
-            setTimeout(() => {
-              window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-            }, 600);
-            setSelectedProduct(null);
+            handleBuyNow(selectedProduct, () => setSelectedProduct(null));
           }
         }}
       />

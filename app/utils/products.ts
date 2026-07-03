@@ -22,9 +22,8 @@ export async function getProducts(): Promise<Product[]> {
         isPopular: p.isPopular ?? false,
       })) as Product[];
     } catch (error) {
-      console.error("Error retrieving products from Mongoose during SSR, falling back to static", error);
-      const { PRODUCTS } = await import("@/app/data");
-      return PRODUCTS;
+      console.error("Error retrieving products from Mongoose during SSR", error);
+      return [];
     }
   } else {
     // Client-Side Execution (Browser)

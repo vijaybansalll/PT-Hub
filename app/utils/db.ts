@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { PRODUCTS } from "@/app/data";
 import dns from "dns";
 
 // Programmatically use Google DNS to bypass local ISP SRV resolution blockages
@@ -84,9 +83,6 @@ export async function connectDB(): Promise<typeof mongoose> {
     throw error;
   }
 
-  // Run seeding checks
-  await seedDatabase();
-
   return cached.conn;
 }
 
@@ -96,28 +92,4 @@ export async function getDb() {
   return mongoose.connection.db;
 }
 
-async function seedDatabase() {
-  try {
-    const { ProductModel } = await import("@/app/models/Product");
-    const count = await ProductModel.countDocuments();
-    if (count === 0) {
-      console.log("Seeding products into MongoDB using Mongoose...");
-      const productsToInsert = PRODUCTS.map((product) => ({
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        price: product.price,
-        rating: product.rating,
-        reviewsCount: product.reviewsCount,
-        video: product.video,
-        description: product.description,
-        isNew: product.isNew,
-        isPopular: product.isPopular,
-      }));
-      await ProductModel.insertMany(productsToInsert);
-      console.log(`Successfully seeded ${productsToInsert.length} products using Mongoose models.`);
-    }
-  } catch (error) {
-    console.error("Mongoose seeding error:", error);
-  }
-}
+
