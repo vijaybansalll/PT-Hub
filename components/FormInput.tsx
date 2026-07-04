@@ -26,13 +26,7 @@ export default function FormInput({
             {icon}
           </span>
         )}
-        <Input
-          className={cn(
-            icon && "pl-8",
-            className
-          )}
-          {...props}
-        />
+        <Input className={cn(icon && "pl-8", className)} {...props} />
       </div>
     </div>
   );

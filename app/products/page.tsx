@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { LuSearch, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LuSearch } from "react-icons/lu";
 import Navbar from "@/components/Navbar";
 import FilterBar from "@/components/FilterBar";
 import ProductCard from "@/components/ProductCard";

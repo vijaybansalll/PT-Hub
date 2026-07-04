@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LuSearch, LuX, LuSlidersHorizontal, LuChevronDown, LuCheck } from "react-icons/lu";
+import { LuSearch, LuSlidersHorizontal, LuChevronDown, LuCheck } from "react-icons/lu";
 import { cn } from "@/app/utils/cn";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Product } from "@/app/data";
 import {
