@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { getProducts } from "@/app/utils/products";
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -10,7 +11,18 @@ export function useFavorites() {
       try {
         const parsed = JSON.parse(savedFavs);
         if (parsed && Array.isArray(parsed)) {
-          setFavorites(parsed);
+          getProducts()
+            .then((allProducts) => {
+              const validFavs = parsed.filter((id) =>
+                allProducts.some((p) => p.id === id)
+              );
+              setFavorites(validFavs);
+              localStorage.setItem("aura-favorites", JSON.stringify(validFavs));
+            })
+            .catch((e) => {
+              console.error("Error fetching products in useFavorites hook", e);
+              setFavorites(parsed);
+            });
         }
       } catch (e) {
         console.error("Error loading favorites", e);

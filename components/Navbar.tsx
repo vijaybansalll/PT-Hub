@@ -40,16 +40,13 @@ export default function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200/50 bg-white/70 backdrop-blur-xl transition-colors duration-300">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <Link href="/">
-          <Logo />
-        </Link>
+        <Logo />
 
         {/* Category Navigation (Desktop) */}
         <Tabs
           value={selectedCategory}
           onValueChange={handleCategoryClick}
-          className="hidden md:flex"
-        >
+          className="hidden md:flex">
           <TabsList className="bg-zinc-100/80 p-0.5 rounded-full border border-zinc-200/35 flex gap-0.5">
             {categories.map((category) => (
               <TabsTrigger
@@ -59,9 +56,8 @@ export default function Navbar({
                   "px-4 py-1.5 text-sm font-medium rounded-full cursor-pointer transition-all",
                   selectedCategory === category
                     ? "bg-white text-blue-600 font-semibold shadow-sm"
-                    : "text-zinc-600 hover:text-zinc-900"
-                )}
-              >
+                    : "text-zinc-600 hover:text-zinc-900",
+                )}>
                 {category}
               </TabsTrigger>
             ))}
@@ -76,7 +72,12 @@ export default function Navbar({
             className="relative flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white hover:bg-zinc-100 transition-colors cursor-pointer"
             title="View Favorites">
             <LuHeart
-              className={cn("h-5 w-5", favoritesCount > 0 ? "fill-red-500 text-red-500" : "text-zinc-500")}
+              className={cn(
+                "h-5 w-5",
+                favoritesCount > 0
+                  ? "fill-red-500 text-red-500"
+                  : "text-zinc-500",
+              )}
             />
             {favoritesCount > 0 && (
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white shadow-sm shadow-blue-600/30 animate-pulse">

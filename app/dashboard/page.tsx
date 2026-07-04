@@ -63,7 +63,6 @@ import {
   ComboboxEmpty,
 } from "@/components/ui/combobox";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RadioGroup08 } from "@/components/ui/radio-group-08";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
@@ -907,7 +906,6 @@ export default function DashboardPage() {
             onSubmit={handleFormSubmit}
             className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 sm:py-6 space-y-4">
             <div className="grid grid-cols-1 gap-4">
-              {/* Category Selection (RadioGroup08 Card Style) */}
               <div className="space-y-2 flex flex-col justify-end">
                 <label className="text-xs font-semibold tracking-tight text-zinc-500 mb-0.5">
                   Category *
