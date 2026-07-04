@@ -9,8 +9,19 @@ import ProductCard from "@/components/ProductCard";
 import ProductModal from "@/components/ProductModal";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Product } from "../data";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { getProducts } from "@/app/utils/products";
 import { cn } from "@/app/utils/cn";
 import { useFavorites } from "@/app/hooks/useFavorites";
@@ -21,6 +32,7 @@ function ProductsContent() {
   const initialCategory = searchParams.get("category") || "All";
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("default");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -40,7 +52,10 @@ function ProductsContent() {
 
   // Initialize products
   useEffect(() => {
-    getProducts().then(setProducts);
+    getProducts().then((data) => {
+      setProducts(data);
+      setIsLoading(false);
+    });
   }, []);
 
   const categories = ["All", "Utilities", "Jewellery", "Dresses"];
@@ -133,11 +148,25 @@ function ProductsContent() {
         sortBy={sortBy}
         setSortBy={setSortBy}
         sortLabels={sortLabels}
+        products={products}
       />
 
       {/* Product Grid listing */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 md:py-8 flex-grow w-full">
-        {filteredProducts.length === 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {[...Array(8)].map((_, idx) => (
+              <div key={idx} className="border border-zinc-200/50 bg-white p-3 rounded-[24px] space-y-4">
+                <Skeleton className="aspect-square w-full rounded-2xl bg-zinc-200/80 h-48 sm:h-64" />
+                <div className="space-y-2 px-1">
+                  <Skeleton className="h-4 w-1/4 bg-zinc-200" />
+                  <Skeleton className="h-5 w-3/4 bg-zinc-200" />
+                  <Skeleton className="h-4 w-1/2 bg-zinc-200" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 mb-4">
               <LuSearch className="h-8 w-8" />
@@ -149,15 +178,15 @@ function ProductsContent() {
               We couldn&apos;t find any premium products matching &quot;
               {searchQuery.trim()}&quot; in category {selectedCategory}.
             </p>
-            <button
+            <Button
               onClick={() => {
                 setSearchQuery("");
                 setSelectedCategory("All");
                 setSortBy("default");
               }}
-              className="mt-4 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors cursor-pointer">
+              className="mt-4 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors cursor-pointer h-9">
               Reset all filters
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
@@ -176,62 +205,64 @@ function ProductsContent() {
         {/* Pagination Controls bar */}
         {totalPages > 1 && (
           <div className="mt-6 md:mt-12 flex flex-col items-center justify-center gap-4 border-t border-zinc-200/50 pt-6 md:pt-8 font-sans">
-            <div className="flex items-center gap-2">
-              {/* Prev Page */}
-              <button
-                disabled={currentPage === 1}
-                onClick={() => {
-                  setCurrentPage((prev) => Math.max(prev - 1, 1));
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="h-9 w-9 flex items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 transition-all cursor-pointer hover:bg-zinc-50 disabled:opacity-40 disabled:pointer-events-none active:scale-95"
-                title="Previous Page">
-                <LuChevronLeft className="h-4.5 w-4.5" />
-              </button>
-
-              {/* Number Buttons */}
-              <div className="hidden sm:flex items-center gap-1.5">
-                {getPageNumbers().map((page, idx) => {
-                  if (page === "...") {
-                    return (
-                      <span
-                        key={`ellipsis-${idx}`}
-                        className="px-2 text-zinc-400 font-bold select-none">
-                        ...
-                      </span>
-                    );
-                  }
-                  return (
-                    <button
-                      key={page}
-                      onClick={() => {
-                        setCurrentPage(page as number);
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) {
+                        setCurrentPage((prev) => prev - 1);
                         window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
-                      className={cn(
-                        "h-9 w-9 text-xs font-bold rounded-full transition-all cursor-pointer",
-                        currentPage === page
-                          ? "bg-blue-600 text-white shadow-md shadow-blue-600/20 scale-105"
-                          : "border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50",
-                      )}>
-                      {page}
-                    </button>
-                  );
-                })}
-              </div>
+                      }
+                    }}
+                    className={cn(currentPage === 1 && "pointer-events-none opacity-40")}
+                  />
+                </PaginationItem>
 
-              {/* Next Page */}
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => {
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="h-9 w-9 flex items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 transition-all cursor-pointer hover:bg-zinc-50 disabled:opacity-40 disabled:pointer-events-none active:scale-95"
-                title="Next Page">
-                <LuChevronRight className="h-4.5 w-4.5" />
-              </button>
-            </div>
+                <div className="hidden sm:flex items-center gap-1">
+                  {getPageNumbers().map((page, idx) => {
+                    if (page === "...") {
+                      return (
+                        <PaginationItem key={`ellipsis-${idx}`}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      );
+                    }
+                    return (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          href="#"
+                          isActive={currentPage === page}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(page as number);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                </div>
+
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage < totalPages) {
+                        setCurrentPage((prev) => prev + 1);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    className={cn(currentPage === totalPages && "pointer-events-none opacity-40")}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
 
             {/* Pagination stats status text */}
             <span className="text-xs text-zinc-400 font-medium">
@@ -267,7 +298,7 @@ function ProductsContent() {
       <FloatingContact />
 
       {/* Shadcn Sonner Toaster */}
-      <Toaster richColors position="bottom-right" theme="light" />
+      <Toaster richColors position="bottom-right" />
     </div>
   );
 }

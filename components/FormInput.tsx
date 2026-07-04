@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/app/utils/cn";
+import { Input } from "@/components/ui/input";
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -21,13 +22,12 @@ export default function FormInput({
       </label>
       <div className="relative">
         {icon && (
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400 text-sm">
             {icon}
           </span>
         )}
-        <input
+        <Input
           className={cn(
-            "flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:opacity-50 disabled:pointer-events-none",
             icon && "pl-8",
             className
           )}

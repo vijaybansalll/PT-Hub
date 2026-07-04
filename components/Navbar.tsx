@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { cn } from "@/app/utils/cn";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface NavbarProps {
   selectedCategory?: string;
@@ -44,29 +45,28 @@ export default function Navbar({
         </Link>
 
         {/* Category Navigation (Desktop) */}
-        <nav className="hidden md:flex items-center gap-1 bg-zinc-100/80 p-1 rounded-full border border-zinc-200/30">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCategoryClick(category)}
-              className="relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 cursor-pointer">
-              {selectedCategory === category && (
-                <motion.span
-                  layoutId="active-pill-header"
-                  className="absolute inset-0 bg-white shadow-sm rounded-full"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-              <span
+        <Tabs
+          value={selectedCategory}
+          onValueChange={handleCategoryClick}
+          className="hidden md:flex"
+        >
+          <TabsList className="bg-zinc-100/80 p-0.5 rounded-full border border-zinc-200/35 flex gap-0.5">
+            {categories.map((category) => (
+              <TabsTrigger
+                key={category}
+                value={category}
                 className={cn(
-                  "relative z-10",
-                  selectedCategory === category ? "text-blue-600 font-semibold" : "text-zinc-600 hover:text-zinc-900"
-                )}>
+                  "px-4 py-1.5 text-sm font-medium rounded-full cursor-pointer transition-all",
+                  selectedCategory === category
+                    ? "bg-white text-blue-600 font-semibold shadow-sm"
+                    : "text-zinc-600 hover:text-zinc-900"
+                )}
+              >
                 {category}
-              </span>
-            </button>
-          ))}
-        </nav>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
         {/* Action Controls */}
         <div className="flex items-center gap-4">

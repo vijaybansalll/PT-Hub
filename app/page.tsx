@@ -12,7 +12,7 @@ import Faqs from "@/components/Faqs";
 import Cta from "@/components/Cta";
 import Testimonials from "@/components/Testimonials";
 import FloatingContact from "@/components/FloatingContact";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { Product } from "./data";
 import { getProducts } from "@/app/utils/products";
 import { useFavorites } from "@/app/hooks/useFavorites";
@@ -121,7 +121,7 @@ export default function Home() {
         <FloatingContact />
 
         {/* Shadcn Sonner Toaster */}
-        <Toaster richColors position="bottom-right" theme="light" />
+        <Toaster richColors position="bottom-right" />
       </div>
     </div>
   );

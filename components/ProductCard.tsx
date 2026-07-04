@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { LuHeart, LuStar, LuArrowRight } from "react-icons/lu";
 import { Product } from "@/app/data";
 import { cn } from "@/app/utils/cn";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
   product: Product;
@@ -37,19 +39,22 @@ export default function ProductCard({
             (badge): badge is { text: string; className: string } => !!badge,
           )
           .map((badge, idx) => (
-            <span
+            <Badge
               key={idx}
               className={cn(
-                "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow-sm",
-                badge.className,
-              )}>
+                "px-2.5 py-1 text-[10px] font-bold text-white shadow-sm rounded-full tracking-wider border-0 h-auto",
+                badge.className
+              )}
+            >
               {badge.text}
-            </span>
+            </Badge>
           ))}
       </div>
 
       {/* Heart Favourites Toggle */}
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={(e) => onToggleFavorite(product.id, e)}
         className="absolute top-5 right-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 border border-zinc-200/50 text-zinc-500 hover:text-zinc-900 shadow-sm hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer">
         <LuHeart
@@ -58,7 +63,7 @@ export default function ProductCard({
             isFavorite ? "fill-red-500 text-red-500" : "text-zinc-500",
           )}
         />
-      </button>
+      </Button>
 
       {/* Thumbnail Area - Inflected style */}
       <div className="inflected-card-inner aspect-video md:aspect-square w-full">

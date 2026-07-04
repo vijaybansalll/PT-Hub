@@ -4,6 +4,17 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LuSearch, LuX, LuSlidersHorizontal, LuChevronDown, LuCheck } from "react-icons/lu";
 import { cn } from "@/app/utils/cn";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Product } from "@/app/data";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+} from "@/components/ui/combobox";
 
 interface FilterBarProps {
   searchQuery: string;
@@ -14,6 +25,7 @@ interface FilterBarProps {
   sortBy: string;
   setSortBy: (sort: string) => void;
   sortLabels: Record<string, string>;
+  products?: Product[];
 }
 
 export default function FilterBar({
@@ -25,6 +37,7 @@ export default function FilterBar({
   sortBy,
   setSortBy,
   sortLabels,
+  products = [],
 }: FilterBarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -32,42 +45,77 @@ export default function FilterBar({
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-y border-zinc-200/50 py-5">
         {/* Category selection (Mobile only) */}
-        <div className="flex md:hidden items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={cn(
-                "flex-shrink-0 px-4 py-2 text-xs font-semibold rounded-full border transition-all cursor-pointer",
-                selectedCategory === category
-                  ? "bg-zinc-900 text-white border-zinc-900 shadow-sm"
-                  : "bg-white text-zinc-600 border-zinc-200"
-              )}>
-              {category}
-            </button>
-          ))}
+        <div className="flex md:hidden items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none w-full">
+          <Tabs
+            value={selectedCategory}
+            onValueChange={setSelectedCategory}
+            className="w-full"
+          >
+            <TabsList className="bg-zinc-100 p-0.5 rounded-full border border-zinc-200 flex gap-0.5 w-fit">
+              {categories.map((category) => (
+                <TabsTrigger
+                  key={category}
+                  value={category}
+                  className={cn(
+                    "px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer",
+                    selectedCategory === category
+                      ? "bg-zinc-900 text-white shadow-sm"
+                      : "text-zinc-650 hover:text-zinc-900"
+                  )}
+                >
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
         </div>
 
-        {/* Search Input field */}
-        <div className="relative flex-1 max-w-md">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <LuSearch className="h-4.5 w-4.5 text-zinc-400" />
+        {/* Search Input field (Combobox Autocomplete) */}
+        <Combobox
+          value={searchQuery.trim() === "" ? "" : searchQuery}
+          onValueChange={(val) => setSearchQuery(val || " ")}
+        >
+          <div className="relative flex-1 max-w-md">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 z-10">
+              <LuSearch className="h-4.5 w-4.5 text-zinc-400" />
+            </div>
+            <ComboboxInput
+              placeholder="Search premium products..."
+              value={searchQuery.trim() === "" ? "" : searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value || " ")}
+              className="pl-10 pr-10 py-2.5 rounded-full h-10 text-sm bg-white placeholder-zinc-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full"
+              showTrigger={false}
+              showClear={searchQuery.trim() !== ""}
+            />
+            {products.length > 0 && (
+              <ComboboxContent className="bg-white border border-zinc-200 shadow-md rounded-lg mt-1 w-full max-h-60 overflow-y-auto">
+                <ComboboxList>
+                  {products
+                    .filter((p) =>
+                      p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+                      p.description.toLowerCase().includes(searchQuery.trim().toLowerCase())
+                    )
+                    .slice(0, 5)
+                    .map((product) => (
+                      <ComboboxItem
+                        key={product.id}
+                        value={product.name}
+                        className="cursor-pointer text-zinc-700 hover:bg-zinc-50"
+                      >
+                        {product.name}
+                      </ComboboxItem>
+                    ))}
+                  {products.filter((p) =>
+                    p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+                    p.description.toLowerCase().includes(searchQuery.trim().toLowerCase())
+                  ).length === 0 && (
+                    <ComboboxEmpty className="py-2 text-center text-zinc-400 text-xs">No matching products</ComboboxEmpty>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            )}
           </div>
-          <input
-            type="text"
-            value={searchQuery.trim() === "" ? "" : searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value || " ")}
-            placeholder="Search premium products..."
-            className="block w-full rounded-full border border-zinc-200 bg-white py-2.5 pl-10 pr-4 text-sm text-zinc-900 placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all shadow-sm"
-          />
-          {searchQuery.trim() !== "" && (
-            <button
-              onClick={() => setSearchQuery(" ")}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-400 hover:text-zinc-600 cursor-pointer">
-              <LuX className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+        </Combobox>
 
         {/* Sorting Dropdown */}
         <div className="relative">

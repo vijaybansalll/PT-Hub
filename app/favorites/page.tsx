@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { LuArrowLeft, LuHeart, LuShoppingBag } from "react-icons/lu";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { Product } from "../data";
 import { getProducts } from "@/app/utils/products";
 import { useFavorites } from "@/app/hooks/useFavorites";
@@ -129,7 +129,7 @@ export default function FavoritesPage() {
         <Footer />
 
         {/* Shadcn Sonner Toaster */}
-        <Toaster richColors position="bottom-right" theme="light" />
+        <Toaster richColors position="bottom-right" />
       </div>
     </div>
   );

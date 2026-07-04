@@ -23,11 +23,48 @@ import {
   LuSlidersHorizontal
 } from "react-icons/lu";
 import { cn } from "@/app/utils/cn";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { Badge } from "@/components/ui/badge";
 import { Product } from "@/app/data";
 import Logo from "@/components/Logo";
 import StatCard from "@/components/StatCard";
 import FormInput from "@/components/FormInput";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+} from "@/components/ui/combobox";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -408,7 +445,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 font-sans pb-12 antialiased selection:bg-zinc-900 selection:text-white">
-      <Toaster richColors position="top-right" theme="light" />
+      <Toaster richColors position="top-right" />
 
       {/* Main Navigation Header (Shadcn Style) */}
       <header className="border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-40">
@@ -512,39 +549,75 @@ export default function DashboardPage() {
 
         {/* Filter and Search Panel (Shadcn Style) */}
         <section className="bg-white border border-zinc-200 rounded-xl p-4 mb-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
-          {/* Search bar */}
-          <div className="relative w-full md:max-w-xs">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400">
-              <LuSearch className="w-4 h-4" />
-            </span>
-            <input
-              type="text"
-              placeholder="Search product database..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex h-9 w-full rounded-md border border-zinc-200 bg-white px-3 py-1 pl-9 text-sm shadow-sm transition-colors placeholder:text-zinc-405 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-          </div>
+          {/* Search bar (Combobox Autocomplete) */}
+          <Combobox
+            value={searchQuery}
+            onValueChange={(val) => setSearchQuery(val || "")}
+          >
+            <div className="relative w-full md:max-w-xs">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400 z-10 pointer-events-none">
+                <LuSearch className="w-4 h-4" />
+              </span>
+              <ComboboxInput
+                placeholder="Search product database..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 h-9 placeholder:text-zinc-450 focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:cursor-not-allowed border border-zinc-200 rounded-md bg-white text-sm"
+                showTrigger={false}
+              />
+              <ComboboxContent className="bg-white border border-zinc-200 shadow-md rounded-lg mt-1 w-full max-h-60 overflow-y-auto">
+                <ComboboxList>
+                  {products
+                    .filter((p) =>
+                      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      p.description.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .slice(0, 5)
+                    .map((product) => (
+                      <ComboboxItem
+                        key={product.id}
+                        value={product.name}
+                        className="cursor-pointer text-zinc-700 hover:bg-zinc-50"
+                      >
+                        {product.name}
+                      </ComboboxItem>
+                    ))}
+                  {products.filter((p) =>
+                    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    p.description.toLowerCase().includes(searchQuery.toLowerCase())
+                  ).length === 0 && (
+                    <ComboboxEmpty className="py-2 text-center text-zinc-400 text-xs">No matching products</ComboboxEmpty>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </div>
+          </Combobox>
 
           {/* Filtering controls */}
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            {/* Category selection tabs (Homepage Pill Style) */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none w-full sm:w-auto">
-              {["All", "Utilities", "Jewellery", "Dresses"].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={cn(
-                    "flex-shrink-0 px-4 py-2 text-xs font-semibold rounded-full border transition-all cursor-pointer",
-                    selectedCategory === cat
-                      ? "bg-zinc-900 text-white border-zinc-900 shadow-sm"
-                      : "bg-white text-zinc-600 border-zinc-200"
-                  )}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            {/* Category selection tabs (Shadcn Tabs Style) */}
+            <Tabs
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+              className="w-full sm:w-auto"
+            >
+              <TabsList className="bg-zinc-100/80 p-0.5 rounded-full border border-zinc-200/50 flex gap-0.5">
+                {["All", "Utilities", "Jewellery", "Dresses"].map((cat) => (
+                  <TabsTrigger
+                    key={cat}
+                    value={cat}
+                    className={cn(
+                      "px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer",
+                      selectedCategory === cat
+                        ? "bg-zinc-900 text-white shadow-sm"
+                        : "text-zinc-600 hover:text-zinc-900"
+                    )}
+                  >
+                    {cat}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
 
             {/* Sorting Dropdown (Homepage Custom Style) */}
             <div className="relative w-full sm:w-auto">
@@ -611,9 +684,12 @@ export default function DashboardPage() {
         {/* Database List Table (Shadcn Table Style) */}
         <section className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
           {isLoading ? (
-            <div className="py-20 text-center">
-              <div className="w-6 h-6 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-              <span className="text-zinc-500 text-xs font-medium">Fetching catalog items...</span>
+            <div className="p-6 space-y-4">
+              <Skeleton className="h-8 w-full bg-zinc-200/80" />
+              <Skeleton className="h-8 w-full bg-zinc-200/80" />
+              <Skeleton className="h-8 w-full bg-zinc-200/80" />
+              <Skeleton className="h-8 w-full bg-zinc-200/80" />
+              <Skeleton className="h-8 w-full bg-zinc-200/80" />
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="py-16 text-center">
@@ -631,62 +707,62 @@ export default function DashboardPage() {
           ) : (
             <>
               {/* Desktop Modern Table View (Visible only on sm screens and larger) */}
-              <div className="hidden sm:block overflow-x-auto">
-                <table className="w-full caption-bottom text-sm border-collapse">
-                  <thead>
-                    <tr className="border-b border-zinc-200 bg-zinc-50/50 text-[10px] font-bold text-zinc-500">
-                      <th className="h-10 px-6 align-middle text-left font-semibold">Product Details</th>
-                      <th className="h-10 px-6 align-middle text-left font-semibold hidden md:table-cell">Category</th>
-                      <th className="h-10 px-6 align-middle text-right font-semibold">Price</th>
-                      <th className="h-10 px-6 align-middle text-left font-semibold hidden lg:table-cell">Rating</th>
-                      <th className="h-10 px-6 align-middle text-left font-semibold hidden xl:table-cell">Status</th>
-                      <th className="h-10 px-6 align-middle text-center font-semibold">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-100 text-zinc-650">
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-b border-zinc-200 bg-zinc-50/50 hover:bg-zinc-50/50 text-[10px] font-bold text-zinc-500">
+                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-zinc-550">Product Details</TableHead>
+                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-zinc-550 hidden md:table-cell">Category</TableHead>
+                      <TableHead className="h-10 px-6 align-middle text-right font-semibold text-zinc-550">Price</TableHead>
+                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-zinc-550 hidden lg:table-cell">Rating</TableHead>
+                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-zinc-550 hidden xl:table-cell">Status</TableHead>
+                      <TableHead className="h-10 px-6 align-middle text-center font-semibold text-zinc-550">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y divide-zinc-100 text-zinc-650">
                     {filteredProducts.map((product) => (
-                      <tr key={product.id} className="border-b border-zinc-200 transition-colors hover:bg-zinc-50/40">
-                        <td className="px-6 py-4 align-middle">
+                      <TableRow key={product.id} className="border-b border-zinc-200 transition-colors hover:bg-zinc-50/40">
+                        <TableCell className="px-6 py-4 align-middle whitespace-normal">
                           <div>
                             <div className="font-bold text-zinc-900 leading-normal">{product.name}</div>
                             <div className="text-xs text-zinc-400 mt-1 max-w-md line-clamp-1">
                               {product.description || "No description provided."}
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 align-middle hidden md:table-cell">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-zinc-100 border border-zinc-205 text-zinc-600">
+                        </TableCell>
+                        <TableCell className="px-6 py-4 align-middle hidden md:table-cell">
+                          <Badge variant="secondary" className="px-2 py-0.5 text-[11px] font-semibold text-zinc-650 bg-zinc-100 border border-zinc-205 h-auto">
                             {product.category}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 align-middle text-right font-extrabold text-zinc-900">
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="px-6 py-4 align-middle text-right font-extrabold text-zinc-900">
                           ${product.price.toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 align-middle hidden lg:table-cell">
+                        </TableCell>
+                        <TableCell className="px-6 py-4 align-middle hidden lg:table-cell">
                           <div className="flex items-center gap-1">
                             <LuStar className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                             <span className="font-bold text-zinc-800">{product.rating.toFixed(1)}</span>
                             <span className="text-[11px] text-zinc-400 font-medium">({product.reviewsCount})</span>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 align-middle hidden xl:table-cell">
+                        </TableCell>
+                        <TableCell className="px-6 py-4 align-middle hidden xl:table-cell">
                           <div className="flex gap-2">
                             {product.isNew && (
-                              <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-600">
+                              <Badge className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-600 h-auto">
                                 New
-                              </span>
+                              </Badge>
                             )}
                             {product.isPopular && (
-                              <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600">
+                              <Badge className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600 h-auto">
                                 Popular
-                              </span>
+                              </Badge>
                             )}
                             {!product.isNew && !product.isPopular && (
                               <span className="text-xs text-zinc-300 font-bold">—</span>
                             )}
                           </div>
-                        </td>
-                        <td className="px-6 py-4 align-middle">
+                        </TableCell>
+                        <TableCell className="px-6 py-4 align-middle">
                           <div className="flex items-center justify-center gap-2">
                             <button
                               onClick={() => handleOpenEditModal(product)}
@@ -703,11 +779,11 @@ export default function DashboardPage() {
                               <LuTrash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
 
               {/* Mobile Modern Card List View (Visible only on mobile screens) */}
@@ -721,9 +797,9 @@ export default function DashboardPage() {
                     <div className="flex justify-between items-start gap-2 mb-2">
                       <div>
                         <h4 className="font-bold text-zinc-900 text-sm leading-snug">{product.name}</h4>
-                        <span className="inline-flex items-center px-2 py-0.5 mt-1 rounded-md text-[10px] font-semibold bg-zinc-100 border border-zinc-200/50 text-zinc-655">
-                          {product.category}
-                        </span>
+                         <Badge variant="secondary" className="px-2 py-0.5 mt-1 rounded-md text-[10px] font-semibold bg-zinc-100 border border-zinc-200/50 text-zinc-655 h-auto">
+                           {product.category}
+                         </Badge>
                       </div>
                       <div className="text-sm font-extrabold text-zinc-900">${product.price.toFixed(2)}</div>
                     </div>
@@ -745,14 +821,14 @@ export default function DashboardPage() {
                         </div>
 
                         {product.isNew && (
-                          <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-50 border border-emerald-250 text-emerald-600">
+                          <Badge className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-50 border border-emerald-250 text-emerald-600 h-auto">
                             New
-                          </span>
+                          </Badge>
                         )}
                         {product.isPopular && (
-                          <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600">
+                          <Badge className="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600 h-auto">
                             Popular
-                          </span>
+                          </Badge>
                         )}
                       </div>
 
@@ -781,172 +857,136 @@ export default function DashboardPage() {
             </>
           )}
         </section>
-      </main>
+      </main>      {/* Forms Modal (Add/Edit) (Shadcn Dialog Style) */}
+      <Dialog open={isFormModalOpen} onOpenChange={setIsFormModalOpen}>
+        <DialogContent className="max-w-lg bg-white border border-zinc-200 shadow-lg text-zinc-950 p-0 overflow-hidden flex flex-col max-h-[90vh]">
+          <DialogHeader className="px-6 pt-6 pb-4 flex flex-col space-y-1.5 relative border-b border-zinc-100">
+            <DialogTitle className="text-lg font-semibold leading-none tracking-tight text-zinc-900">
+              {currentProduct ? "Edit Product Details" : "Create New Product"}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-zinc-400">
+              Modify the product parameters in your database catalog.
+            </DialogDescription>
+          </DialogHeader>
 
-      {/* Forms Modal (Add/Edit) (Shadcn Dialog Style) */}
-      <AnimatePresence>
-        {isFormModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsFormModalOpen(false)}
-              className="absolute inset-0 bg-zinc-950/20 backdrop-blur-xs"
-            ></motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.97, y: 5 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: 5 }}
-              className="bg-white border border-zinc-200 w-full max-w-lg rounded-lg overflow-hidden shadow-lg relative z-10 flex flex-col max-h-[90vh]"
-            >
-              <div className="px-6 pt-6 pb-4 flex flex-col space-y-1.5 relative">
-                <h3 className="text-lg font-semibold leading-none tracking-tight text-zinc-900">
-                  {currentProduct ? "Edit Product Details" : "Create New Product"}
-                </h3>
-                <p className="text-xs text-zinc-400">
-                  Modify the product parameters in your database catalog.
-                </p>
-                <button
-                  onClick={() => setIsFormModalOpen(false)}
-                  className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity hover:bg-zinc-100 p-1 cursor-pointer"
+          <form onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Category Selection */}
+              <div className="space-y-1.5 flex flex-col justify-end">
+                <label className="text-xs font-semibold tracking-tight text-zinc-500 mb-0.5">
+                  Category *
+                </label>
+                <Select
+                  value={formCategory}
+                  onValueChange={(val) => setFormCategory(val as any)}
                 >
-                  <LuX className="w-4 h-4 text-zinc-500" />
-                </button>
+                  <SelectTrigger className="w-full h-9 bg-white text-zinc-700 border-zinc-200 text-xs font-semibold flex items-center justify-between cursor-pointer focus:outline-none focus:ring-1 focus:ring-zinc-950">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-zinc-200 text-zinc-700 text-xs font-semibold rounded-lg shadow-md">
+                    <SelectItem value="Utilities">Utilities</SelectItem>
+                    <SelectItem value="Jewellery">Jewellery</SelectItem>
+                    <SelectItem value="Dresses">Dresses</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto px-6 pb-6 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Category Selection */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Category *
-                    </label>
-                    <select
-                      value={formCategory}
-                      onChange={(e) => setFormCategory(e.target.value as any)}
-                      className="flex h-9 w-full items-center justify-between rounded-md border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700 shadow-sm focus:outline-none focus:ring-1 focus:ring-zinc-950 cursor-pointer"
-                    >
-                      <option value="Utilities">Utilities</option>
-                      <option value="Jewellery">Jewellery</option>
-                      <option value="Dresses">Dresses</option>
-                    </select>
-                  </div>
+              {/* Standard Form Inputs */}
+              {formFields.map((field) => (
+                <FormInput key={field.id} {...field} />
+              ))}
 
-                  {/* Standard Form Inputs */}
-                  {formFields.map((field) => (
-                    <FormInput key={field.id} {...field} />
-                  ))}
+              {/* Description */}
+              <div className="space-y-1.5 sm:col-span-2">
+                <label className="text-xs font-semibold tracking-tight text-zinc-500">
+                  Description
+                </label>
+                <textarea
+                  rows={3}
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  placeholder="Describe this product catalog entry..."
+                  className="flex w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 resize-none"
+                ></textarea>
+              </div>
 
-                  {/* Description */}
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-semibold tracking-tight text-zinc-500">
-                      Description
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formDescription}
-                      onChange={(e) => setFormDescription(e.target.value)}
-                      placeholder="Describe this product catalog entry..."
-                      className="flex w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 resize-none"
-                    ></textarea>
-                  </div>
+              {/* Checkbox Flags */}
+              <div className="flex gap-6 sm:col-span-2 pt-2">
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <Checkbox
+                    checked={formIsNew}
+                    onCheckedChange={setFormIsNew}
+                  />
+                  <span className="text-xs font-semibold text-zinc-655">Mark as New Arrival</span>
+                </label>
 
-                  {/* Checkbox Flags */}
-                  <div className="flex gap-6 sm:col-span-2 pt-2">
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={formIsNew}
-                        onChange={(e) => setFormIsNew(e.target.checked)}
-                        className="w-4 h-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-950 bg-white"
-                      />
-                      <span className="text-xs font-semibold text-zinc-650">Mark as New Arrival</span>
-                    </label>
+                <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <Checkbox
+                    checked={formIsPopular}
+                    onCheckedChange={setFormIsPopular}
+                  />
+                  <span className="text-xs font-semibold text-zinc-655">Mark as Popular Pick</span>
+                </label>
+              </div>
+            </div>
 
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={formIsPopular}
-                        onChange={(e) => setFormIsPopular(e.target.checked)}
-                        className="w-4 h-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-950 bg-white"
-                      />
-                      <span className="text-xs font-semibold text-zinc-650">Mark as Popular Pick</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-zinc-150 flex flex-col-reverse sm:flex-row justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsFormModalOpen(false)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold border border-zinc-200 bg-white hover:bg-zinc-50 h-8 px-4 transition-colors cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-4 transition-colors cursor-pointer shadow-sm"
-                  >
-                    {currentProduct ? "Save Changes" : "Create Product"}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
+            <DialogFooter className="pt-4 border-t border-zinc-150 flex flex-col-reverse sm:flex-row justify-end gap-2 p-0 -mx-0 -mb-0 bg-transparent border-t-0">
+              <button
+                type="button"
+                onClick={() => setIsFormModalOpen(false)}
+                className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold border border-zinc-200 bg-white hover:bg-zinc-50 h-8 px-4 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-4 transition-colors cursor-pointer shadow-sm"
+              >
+                {currentProduct ? "Save Changes" : "Create Product"}
+              </button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
       {/* Delete Confirmation Modal (Shadcn Alert Dialog Style) */}
-      <AnimatePresence>
-        {isDeleteModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsDeleteModalOpen(false)}
-              className="absolute inset-0 bg-zinc-950/20 backdrop-blur-xs"
-            ></motion.div>
+      <Dialog open={isDeleteModalOpen} onOpenChange={(open) => {
+        if (!open) {
+          setIsDeleteModalOpen(false);
+          setProductToDelete(null);
+        }
+      }}>
+        <DialogContent className="max-w-sm bg-white border border-zinc-200 p-5 shadow-lg text-zinc-950" showCloseButton={false}>
+          <DialogHeader className="mb-2.5 flex items-center gap-2">
+            <DialogTitle className="font-semibold text-base text-zinc-900 flex items-center gap-2">
+              <LuTrash2 className="text-red-655 w-4.5 h-4.5" />
+              <span>Delete Catalog Entry?</span>
+            </DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="text-zinc-500 text-xs leading-relaxed mb-6 font-medium">
+            Are you sure you want to permanently delete <span className="font-semibold text-zinc-800">"{productToDelete?.name}"</span>? This action is permanent and cannot be undone.
+          </DialogDescription>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.97 }}
-              className="bg-white border border-zinc-200 w-full max-w-sm rounded-lg p-5 shadow-lg relative z-10"
+          <DialogFooter className="flex flex-col-reverse sm:flex-row justify-end gap-2 p-0 -mx-0 -mb-0 bg-transparent border-t-0">
+            <button
+              type="button"
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+                setProductToDelete(null);
+              }}
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold border border-zinc-200 bg-white hover:bg-zinc-50 h-8 px-4 transition-colors cursor-pointer"
             >
-              <h3 className="font-semibold text-base text-zinc-900 mb-2.5 flex items-center gap-2">
-                <LuTrash2 className="text-red-650 w-4.5 h-4.5" />
-                <span>Delete Catalog Entry?</span>
-              </h3>
-              <p className="text-zinc-500 text-xs leading-relaxed mb-6 font-medium">
-                Are you sure you want to permanently delete <span className="font-semibold text-zinc-800">"{productToDelete?.name}"</span>? This action is permanent and cannot be undone.
-              </p>
-
-              <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsDeleteModalOpen(false);
-                    setProductToDelete(null);
-                  }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold border border-zinc-200 bg-white hover:bg-zinc-50 h-8 px-4 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleDeleteConfirm}
-                  className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold bg-red-600 hover:bg-red-50 text-white h-8 px-4 transition-colors cursor-pointer shadow-sm"
-                >
-                  Delete
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleDeleteConfirm}
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-xs font-semibold bg-red-600 hover:bg-red-50 text-white h-8 px-4 transition-colors cursor-pointer shadow-sm"
+            >
+              Delete
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

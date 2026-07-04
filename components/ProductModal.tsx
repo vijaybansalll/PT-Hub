@@ -16,6 +16,8 @@ import {
 } from "react-icons/lu";
 import { Product } from "@/app/data";
 import { cn } from "@/app/utils/cn";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface ProductModalProps {
   product: Product | null;
@@ -60,14 +62,15 @@ export default function ProductModal({
           {/* Modal Container Card */}
           <motion.div
             layoutId={`card-${product.id}`}
-            className="relative z-10 w-full max-w-5xl md:overflow-hidden rounded-3xl bg-white shadow-2xl border border-zinc-200/80 h-fit md:h-[80vh] max-h-[750px] flex flex-col md:flex-row transition-colors duration-300"
-            style={{ borderRadius: 28 }}>
+            className="relative z-10 w-full max-w-5xl md:overflow-hidden rounded-[28px] bg-white shadow-2xl border border-zinc-200/80 h-fit md:h-[80vh] max-h-[750px] flex flex-col md:flex-row transition-colors duration-300">
             {/* Close Button */}
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-5 md:right-5 z-20 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-zinc-100/80 text-zinc-700 hover:text-zinc-900 shadow-md hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer">
+              className="absolute top-4 right-4 md:top-5 md:right-5 z-20 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-zinc-100/80 text-zinc-700 hover:text-zinc-900 shadow-md hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer border-0">
               <LuX className="h-4 w-4 md:h-5 md:w-5" />
-            </button>
+            </Button>
 
             {/* Inner Content Container */}
             <motion.div
@@ -95,9 +98,9 @@ export default function ProductModal({
                   {/* Video & Category Badges */}
                   <div className="absolute top-3 left-3 z-20 flex flex-wrap gap-2 pointer-events-none">
                     {/* Category Badge (Mobile Only) */}
-                    <span className="inline-flex md:hidden items-center rounded-full bg-blue-600 px-3 py-1.5 text-[10px] font-semibold md:font-bold text-white shadow-lg shadow-blue-600/30">
+                    <Badge className="inline-flex md:hidden items-center rounded-full bg-blue-600 px-3 py-1.5 text-[10px] font-bold text-white shadow-lg shadow-blue-600/30 border-0 h-auto">
                       {product.category}
-                    </span>
+                    </Badge>
                   </div>
 
                   {/* Big Play/Pause Toggle Button in the Center */}
@@ -148,9 +151,9 @@ export default function ProductModal({
               <div className="w-full md:w-1/2 p-3 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[45vh] md:max-h-full font-sans">
                 <div>
                   {/* Category Tag */}
-                  <span className="hidden md:inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-600 border border-blue-200/10">
+                  <Badge variant="secondary" className="hidden md:inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-600 border border-blue-200/10 h-auto">
                     {product.category}
-                  </span>
+                  </Badge>
 
                   {/* Title & Price */}
                   <div className="mt-3 flex flex-col md:flex-row items-start justify-between gap-0 md:gap-4">
@@ -219,21 +222,22 @@ export default function ProductModal({
                 {/* Bottom Action buttons */}
                 <div className="mt-4 md:mt-8 pt-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-3">
                   {/* Buy now trigger */}
-                  <button
+                  <Button
                     onClick={onBuyNow}
-                    className="flex-1 py-3 px-6 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-sm shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center gap-2 cursor-pointer">
+                    className="flex-1 py-3 px-6 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-sm shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center gap-2 cursor-pointer h-12">
                     <LuShoppingBag className="h-4.5 w-4.5" />
                     Buy Now
-                  </button>
+                  </Button>
 
                   {/* Add to favorites trigger */}
-                  <button
+                  <Button
+                    variant={isFavorite ? "secondary" : "outline"}
                     onClick={onToggleFavorite}
                     className={cn(
-                      "hidden md:flex py-3 px-6 rounded-full border font-bold text-sm items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer",
+                      "hidden md:flex py-3 px-6 rounded-full font-bold text-sm items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer h-12 border border-zinc-200",
                       isFavorite
                         ? "bg-blue-500/10 text-blue-600 border-blue-500/30 hover:bg-blue-500/20"
-                        : "bg-white text-zinc-700 border-zinc-200 hover:bg-zinc-50",
+                        : "bg-white text-zinc-700 hover:bg-zinc-50",
                     )}>
                     <LuHeart
                       className={cn(
@@ -242,7 +246,7 @@ export default function ProductModal({
                       )}
                     />
                     {isFavorite ? "Favorited" : "Add to Favourites"}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </motion.div>
