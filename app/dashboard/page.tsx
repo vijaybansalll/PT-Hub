@@ -206,9 +206,9 @@ export default function DashboardPage() {
       return;
     }
 
-    const ratingNum = parseFloat(formRating || "0");
-    if (isNaN(ratingNum) || ratingNum < 0 || ratingNum > 5) {
-      toast.error("Rating must be a number between 0 and 5.");
+    const ratingNum = parseFloat(formRating || "1");
+    if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+      toast.error("Rating must be a number between 1 and 5.");
       return;
     }
 
@@ -430,10 +430,10 @@ export default function DashboardPage() {
     },
     {
       id: "rating",
-      label: "Initial Rating (0-5)",
+      label: "Initial Rating (1-5)",
       type: "number",
       step: "0.1",
-      min: "0",
+      min: "1",
       max: "5",
       placeholder: "4.5",
       value: formRating,
