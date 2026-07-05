@@ -17,38 +17,32 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 2. Parse form-data
-    const formData = await request.formData();
-    const file = formData.get("file") as File | null;
+    // 2. Generate Cloudinary signature for client-side direct upload
+    const timestamp = Math.round(new Date().getTime() / 1000);
+    const folder = "pt-hub-videos";
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
-    }
+    // Cloudinary signature parameters (must be sorted alphabetically for signing)
+    const paramsToSign = {
+      folder,
+      timestamp,
+    };
 
-    // Convert file to buffer for Cloudinary uploader stream
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const signature = cloudinary.utils.api_sign_request(
+      paramsToSign,
+      process.env.CLOUDINARY_API_SECRET!
+    );
 
-    // 3. Upload stream to Cloudinary
-    const uploadResult = await new Promise<any>((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          resource_type: "video",
-          folder: "pt-hub-videos",
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      ).end(buffer);
+    return NextResponse.json({
+      signature,
+      timestamp,
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      folder,
     });
-
-    // Return uploaded video URL
-    return NextResponse.json({ secure_url: uploadResult.secure_url });
   } catch (error: any) {
-    console.error("Cloudinary backend upload API error:", error);
+    console.error("Cloudinary signature generation error:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to upload video" },
+      { error: error.message || "Failed to generate upload signature" },
       { status: 500 }
     );
   }

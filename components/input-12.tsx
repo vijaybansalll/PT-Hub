@@ -29,25 +29,48 @@ export default function VideoUploadInput({
     const toastId = toast.loading("Uploading video to Cloudinary...");
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch("/api/upload", {
+      // 1. Get upload signature and configurations from Next.js server
+      const signResponse = await fetch("/api/upload", {
         method: "POST",
-        body: formData,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData?.error || "Failed to upload to Cloudinary");
+      if (!signResponse.ok) {
+        const errorData = await signResponse.json().catch(() => ({}));
+        throw new Error(errorData?.error || "Failed to generate upload signature");
       }
 
-      const data = await response.json();
-      if (data.secure_url) {
-        onChange(data.secure_url);
+      const { signature, timestamp, cloudName, apiKey, folder } = await signResponse.json();
+
+      // 2. Prepare Form Data for direct Cloudinary upload
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append("file", file);
+      cloudinaryFormData.append("api_key", apiKey);
+      cloudinaryFormData.append("timestamp", timestamp.toString());
+      cloudinaryFormData.append("signature", signature);
+      cloudinaryFormData.append("folder", folder);
+
+      // 3. Post the file directly to Cloudinary
+      const uploadResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
+        {
+          method: "POST",
+          body: cloudinaryFormData,
+        }
+      );
+
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json().catch(() => ({}));
+        throw new Error(
+          errorData?.error?.message || "Failed to upload directly to Cloudinary"
+        );
+      }
+
+      const uploadData = await uploadResponse.json();
+      if (uploadData.secure_url) {
+        onChange(uploadData.secure_url);
         toast.success("Video uploaded to Cloudinary successfully!", { id: toastId });
       } else {
-        throw new Error("Invalid response structure from upload server");
+        throw new Error("Invalid response structure from Cloudinary");
       }
     } catch (err: any) {
       console.error("Cloudinary upload failed:", err);
