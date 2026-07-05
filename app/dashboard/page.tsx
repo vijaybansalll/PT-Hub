@@ -27,6 +27,7 @@ import { Product } from "@/app/data";
 import Logo from "@/components/Logo";
 import StatCard from "@/components/StatCard";
 import FormInput from "@/components/FormInput";
+import VideoUploadInput from "@/components/input-12";
 import {
   Table,
   TableHeader,
@@ -62,6 +63,7 @@ import {
 } from "@/components/ui/combobox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -109,6 +111,7 @@ export default function DashboardPage() {
   const [formDescription, setFormDescription] = useState("");
   const [formIsNew, setFormIsNew] = useState(false);
   const [formIsPopular, setFormIsPopular] = useState(false);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
 
   // Verify authentication on mount
   useEffect(() => {
@@ -881,9 +884,17 @@ export default function DashboardPage() {
               </div>
 
               {/* Standard Form Inputs */}
-              {formFields.map((field) => (
+              {formFields.filter(f => f.id !== "video").map((field) => (
                 <FormInput key={field.id} {...field} />
               ))}
+
+              {/* Secure Cloudinary Video Upload (input-12 component) */}
+              <VideoUploadInput
+                value={formVideo}
+                onChange={setFormVideo}
+                isUploading={isUploadingVideo}
+                setIsUploading={setIsUploadingVideo}
+              />
 
               {/* Description */}
               <div className="space-y-1.5 flex flex-col">
