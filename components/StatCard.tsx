@@ -21,20 +21,22 @@ export default function StatCard({
   subtitleColor = "text-zinc-400",
 }: StatCardProps) {
   return (
-    <div className="rounded-xl border border-zinc-250 bg-white text-zinc-950 shadow-xs p-6 flex flex-col transition-all hover:shadow-sm duration-200">
-      <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <div className="rounded-xl border border-zinc-250 bg-white text-zinc-950 shadow-xs p-4 md:p-6 flex flex-col transition-all hover:shadow-sm duration-200">
+      <div className="flex flex-row items-center justify-between space-y-0 pb-1 md:pb-2">
         <span className="text-xs font-semibold tracking-tight text-zinc-500">
           {title}
         </span>
-        <div className={cn("h-4 w-4 text-zinc-450", iconColor)}>
-          {icon}
-        </div>
+        <div className={cn("text-zinc-450", iconColor)}>{icon}</div>
       </div>
       <div className="mt-1">
         <div className="text-2xl font-bold tracking-tight text-zinc-900">
           {value}
         </div>
-        <p className={cn("text-[10px] text-zinc-400 font-semibold mt-1", subtitleColor)}>
+        <p
+          className={cn(
+            "text-[10px] text-zinc-400 font-semibold mt-1",
+            subtitleColor,
+          )}>
           {subtitle}
         </p>
       </div>

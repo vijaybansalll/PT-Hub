@@ -16,7 +16,7 @@ export default function FormInput({
   ...props
 }: FormInputProps) {
   return (
-    <div className={cn("space-y-1.5", span)}>
+    <div className={cn("space-y-1.5 flex flex-col", span)}>
       <label className="text-xs font-semibold tracking-tight text-zinc-500">
         {label}
       </label>

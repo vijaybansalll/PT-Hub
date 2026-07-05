@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+
 import {
   LuPlus,
   LuPencil,
@@ -16,8 +16,6 @@ import {
   LuTags,
   LuLayers,
   LuUser,
-  LuChevronDown,
-  LuCheck,
   LuSlidersHorizontal,
   LuIndianRupee,
 } from "react-icons/lu";
@@ -44,7 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   Dialog,
   DialogContent,
@@ -84,7 +82,6 @@ export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("default");
-  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
   const sortLabels: Record<string, string> = {
     default: "Featured",
@@ -373,7 +370,7 @@ export default function DashboardPage() {
         title: "Total Items",
         value: stats.total,
         subtitle: "Active products in catalog",
-        icon: <LuLayers className="w-4 h-4" />,
+        icon: <LuLayers className="size-6" />,
         borderColor: "border-l-blue-500",
         iconBg: "bg-blue-50",
         iconColor: "text-blue-600",
@@ -383,7 +380,7 @@ export default function DashboardPage() {
         title: "New Arrivals",
         value: stats.newItems,
         subtitle: "Flagged as New",
-        icon: <LuSparkles className="w-4 h-4" />,
+        icon: <LuSparkles className="size-6" />,
         borderColor: "border-l-emerald-500",
         iconBg: "bg-emerald-50",
         iconColor: "text-emerald-600",
@@ -394,7 +391,7 @@ export default function DashboardPage() {
         title: "Popular Picks",
         value: stats.popularItems,
         subtitle: "Flagged as Popular",
-        icon: <LuTrendingUp className="w-4 h-4" />,
+        icon: <LuTrendingUp className="size-6" />,
         borderColor: "border-l-amber-500",
         iconBg: "bg-amber-50",
         iconColor: "text-amber-600",
@@ -478,7 +475,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans antialiased pb-12 selection:bg-zinc-900 selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans antialiased md:pb-12 selection:bg-zinc-900 selection:text-white">
       <Toaster richColors position="top-right" />
       {/* Main Navigation Header (Shadcn Style) */}
       <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
@@ -512,10 +509,10 @@ export default function DashboardPage() {
         {/* Welcome Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-1">
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900">
+            <h2 className="text-xl md:text-3xl font-semibold md:font-bold tracking-tight text-zinc-900">
               Products Database
             </h2>
-            <p className="text-sm text-zinc-550">
+            <p className="text-xs md:text-sm text-zinc-550">
               Manage your products database inventory metrics, entry details,
               and categories.
             </p>
@@ -529,7 +526,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Statistical Cards Panel */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
           {statCardsConfig.map((card) => (
             <StatCard key={card.id} {...card} />
           ))}
@@ -593,86 +590,45 @@ export default function DashboardPage() {
 
           {/* Filtering controls */}
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            {/* Category selection tabs (Shadcn Tabs Style) */}
-            <Tabs
+            {/* Category selection dropdown */}
+            <Select
               value={selectedCategory}
-              onValueChange={setSelectedCategory}
-              className="w-full sm:w-auto overflow-x-auto no-scrollbar">
-              <TabsList className="bg-zinc-100/80 p-0.5 rounded-full border border-zinc-200/50 flex gap-0.5 overflow-x-auto max-w-full flex-nowrap no-scrollbar">
+              onValueChange={(val) => setSelectedCategory(val || "All")}>
+              <SelectTrigger className="w-full sm:w-auto h-9 bg-white text-zinc-700 border-zinc-200 text-xs font-semibold rounded-full px-4 flex items-center justify-between gap-2 cursor-pointer shadow-sm hover:bg-zinc-50 transition-all">
+                <span className="flex items-center gap-1.5">
+                  <LuLayers className="h-3.5 w-3.5 text-zinc-500" />
+                  <span>Category: </span>
+                  <SelectValue placeholder="All" />
+                </span>
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-zinc-200 text-zinc-700 text-xs font-semibold rounded-xl shadow-md">
                 {["All", "Utilities", "Jewellery", "Dresses"].map((cat) => (
-                  <TabsTrigger
-                    key={cat}
-                    value={cat}
-                    className={cn(
-                      "px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer flex-shrink-0",
-                      selectedCategory === cat
-                        ? "bg-zinc-900 text-white shadow-sm"
-                        : "text-zinc-600 hover:text-zinc-900",
-                    )}>
+                  <SelectItem key={cat} value={cat} className="cursor-pointer">
                     {cat}
-                  </TabsTrigger>
+                  </SelectItem>
                 ))}
-              </TabsList>
-            </Tabs>
+              </SelectContent>
+            </Select>
 
-            {/* Sorting Dropdown (Homepage Custom Style) */}
-            <div className="relative w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                className="flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50 transition-all w-full sm:w-auto justify-between cursor-pointer h-9">
+            {/* Sorting Dropdown */}
+            <Select
+              value={sortBy}
+              onValueChange={(val) => setSortBy(val || "default")}>
+              <SelectTrigger className="w-full sm:w-auto h-9 bg-white text-zinc-700 border-zinc-200 text-xs font-semibold rounded-full px-4 flex items-center justify-between gap-2 cursor-pointer shadow-sm hover:bg-zinc-50 transition-all">
                 <span className="flex items-center gap-1.5">
                   <LuSlidersHorizontal className="h-3.5 w-3.5 text-blue-500" />
-                  Sort:{" "}
-                  <span className="text-zinc-900 font-bold">
-                    {sortLabels[sortBy] || "Featured"}
-                  </span>
+                  <span>Sort: </span>
+                  <SelectValue placeholder="Featured" />
                 </span>
-                <LuChevronDown
-                  className={cn(
-                    "h-3.5 w-3.5 text-zinc-500 transition-transform duration-200",
-                    isSortDropdownOpen && "rotate-180",
-                  )}
-                />
-              </button>
-
-              <AnimatePresence>
-                {isSortDropdownOpen && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-40"
-                      onClick={() => setIsSortDropdownOpen(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl border border-zinc-200 bg-white p-2 shadow-xl z-50 focus:outline-none">
-                      {Object.entries(sortLabels).map(([key, label]) => (
-                        <button
-                          type="button"
-                          key={key}
-                          onClick={() => {
-                            setSortBy(key);
-                            setIsSortDropdownOpen(false);
-                          }}
-                          className={cn(
-                            "flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold transition-colors cursor-pointer",
-                            sortBy === key
-                              ? "bg-zinc-900 text-white"
-                              : "text-zinc-700 hover:bg-zinc-100",
-                          )}>
-                          {label}
-                          {sortBy === key && (
-                            <LuCheck className="h-3.5 w-3.5" />
-                          )}
-                        </button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-zinc-200 text-zinc-700 text-xs font-semibold rounded-xl shadow-md">
+                {Object.entries(sortLabels).map(([key, label]) => (
+                  <SelectItem key={key} value={key} className="cursor-pointer">
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -687,7 +643,7 @@ export default function DashboardPage() {
               <Skeleton className="h-8 w-full bg-zinc-200/80" />
             </div>
           ) : filteredProducts.length === 0 ? (
-            <div className="py-16 text-center">
+            <div className="py-8 md:py-16 text-center">
               <div className="text-zinc-400 text-sm mb-2 font-medium">
                 No matching products found.
               </div>
@@ -906,17 +862,17 @@ export default function DashboardPage() {
             onSubmit={handleFormSubmit}
             className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 sm:py-6 space-y-4">
             <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2 flex flex-col justify-end">
-                <label className="text-xs font-semibold tracking-tight text-zinc-500 mb-0.5">
+              <div className="space-y-1.5 flex flex-col justify-end">
+                <label className="text-xs font-semibold tracking-tight text-zinc-500">
                   Category *
                 </label>
                 <Select
                   value={formCategory}
                   onValueChange={(val) => setFormCategory(val as any)}>
-                  <SelectTrigger className="w-full h-9 bg-white text-zinc-700 border-zinc-200 text-xs font-semibold flex items-center justify-between cursor-pointer focus:outline-none focus:ring-1 focus:ring-zinc-950">
+                  <SelectTrigger className="w-full bg-white text-zinc-700 border-zinc-200 text-xs font-semibold flex items-center justify-between cursor-pointer focus:outline-none focus:ring-1 focus:ring-zinc-950">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border border-zinc-200 text-zinc-700 text-xs font-semibold rounded-lg shadow-md">
+                  <SelectContent className="w-fit bg-white border border-zinc-200 text-zinc-700 text-xs font-semibold rounded-lg shadow-md">
                     <SelectItem value="Utilities">Utilities</SelectItem>
                     <SelectItem value="Jewellery">Jewellery</SelectItem>
                     <SelectItem value="Dresses">Dresses</SelectItem>
@@ -930,7 +886,7 @@ export default function DashboardPage() {
               ))}
 
               {/* Description */}
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 flex flex-col">
                 <label className="text-xs font-semibold tracking-tight text-zinc-500">
                   Description
                 </label>
@@ -949,7 +905,7 @@ export default function DashboardPage() {
                     checked={formIsNew}
                     onCheckedChange={setFormIsNew}
                   />
-                  <span className="text-xs font-semibold text-zinc-655">
+                  <span className="text-xs text-zinc-655">
                     Mark as New Arrival
                   </span>
                 </label>
@@ -959,7 +915,7 @@ export default function DashboardPage() {
                     checked={formIsPopular}
                     onCheckedChange={setFormIsPopular}
                   />
-                  <span className="text-xs font-semibold text-zinc-655">
+                  <span className="text-xs text-zinc-655">
                     Mark as Popular Pick
                   </span>
                 </label>
