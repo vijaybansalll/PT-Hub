@@ -789,7 +789,7 @@ export default function DashboardPage() {
                         </Badge>
                       </div>
                       <div className="text-sm font-extrabold text-neutral-900">
-                        ${product.price.toFixed(2)}
+                        ₹{product.price.toFixed(2)}
                       </div>
                     </div>
 
