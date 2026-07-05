@@ -112,7 +112,7 @@ function ProductsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 font-sans flex flex-col animate-fade-in">
+    <div className="min-h-screen bg-neutral-50 text-neutral-900 transition-colors duration-300 font-sans flex flex-col animate-fade-in">
       {/* Navigation bar component */}
       <Navbar
         selectedCategory={selectedCategory}
@@ -128,10 +128,10 @@ function ProductsContent() {
           <div className="h-96 w-96 rounded-full bg-blue-600 ml-12 animate-bounce duration-10000" />
         </div>
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center">
-          <h1 className="text-lg font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
+          <h1 className="text-lg font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-neutral-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
             Explore All Products
           </h1>
-          <p className="mt-1 md:mt-2 max-w-xl text-sm md:text-lg text-zinc-500 mx-auto">
+          <p className="mt-1 md:mt-2 max-w-xl text-sm md:text-lg text-neutral-500 mx-auto">
             Browse our curated collection of useful smart Chinese imports,
             innovative daily utilities, and premium handcrafted jewellery.
           </p>
@@ -156,25 +156,25 @@ function ProductsContent() {
         {isLoading ? (
           <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {[...Array(8)].map((_, idx) => (
-              <div key={idx} className="border border-zinc-200/50 bg-white p-3 rounded-[24px] space-y-4">
-                <Skeleton className="aspect-square w-full rounded-2xl bg-zinc-200/80 h-48 sm:h-64" />
+              <div key={idx} className="border border-neutral-200/50 bg-white p-3 rounded-[24px] space-y-4">
+                <Skeleton className="aspect-square w-full rounded-2xl bg-neutral-200/80 h-48 sm:h-64" />
                 <div className="space-y-2 px-1">
-                  <Skeleton className="h-4 w-1/4 bg-zinc-200" />
-                  <Skeleton className="h-5 w-3/4 bg-zinc-200" />
-                  <Skeleton className="h-4 w-1/2 bg-zinc-200" />
+                  <Skeleton className="h-4 w-1/4 bg-neutral-200" />
+                  <Skeleton className="h-5 w-3/4 bg-neutral-200" />
+                  <Skeleton className="h-4 w-1/2 bg-neutral-200" />
                 </div>
               </div>
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 mb-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-400 mb-4">
               <LuSearch className="h-8 w-8" />
             </div>
-            <h3 className="text-lg font-bold text-zinc-900">
+            <h3 className="text-lg font-bold text-neutral-900">
               No products found
             </h3>
-            <p className="mt-1 text-sm text-zinc-500 max-w-xs">
+            <p className="mt-1 text-sm text-neutral-500 max-w-xs">
               We couldn&apos;t find any premium products matching &quot;
               {searchQuery.trim()}&quot; in category {selectedCategory}.
             </p>
@@ -204,7 +204,7 @@ function ProductsContent() {
 
         {/* Pagination Controls bar */}
         {totalPages > 1 && (
-          <div className="mt-6 md:mt-12 flex flex-col items-center justify-center gap-4 border-t border-zinc-200/50 pt-6 md:pt-8 font-sans">
+          <div className="mt-6 md:mt-12 flex flex-col items-center justify-center gap-4 border-t border-neutral-200/50 pt-6 md:pt-8 font-sans">
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -265,7 +265,7 @@ function ProductsContent() {
             </Pagination>
 
             {/* Pagination stats status text */}
-            <span className="text-xs text-zinc-400 font-medium">
+            <span className="text-xs text-neutral-400 font-medium">
               Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} -{" "}
               {Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)}{" "}
               of {filteredProducts.length} items
@@ -307,7 +307,7 @@ export default function ProductsPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-zinc-50">
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       }>

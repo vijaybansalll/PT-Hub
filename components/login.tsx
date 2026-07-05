@@ -79,10 +79,10 @@ const Login = () => {
 
   if (checkingSession) {
     return (
-      <div className="min-h-screen bg-zinc-50 flex items-center justify-center font-sans">
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center font-sans">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-zinc-500 text-sm font-medium">
+          <span className="text-neutral-500 text-sm font-medium">
             Verifying Session...
           </span>
         </div>
@@ -91,18 +91,18 @@ const Login = () => {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-zinc-50 font-sans p-4 select-none overflow-hidden text-zinc-900">
+    <div className="relative min-h-screen flex items-center justify-center bg-neutral-50 font-sans p-4 select-none overflow-hidden text-neutral-900">
       <Toaster richColors position="top-right" />
 
       {/* Floating abstract decorative background gradients (light, matching home page theme) */}
       <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none"></div>
 
-      <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-zinc-200 bg-white px-8 py-8 shadow-md z-10">
+      <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-neutral-200 bg-white px-8 py-8 shadow-md z-10">
 
         <div className="relative isolate flex flex-col items-center">
           <Logo showText={false} className="scale-100" />
-          <p className="mt-4 font-bold text-zinc-900 text-lg">
+          <p className="mt-4 font-bold text-neutral-900 text-lg">
             Log in to Admin Panel
           </p>
 

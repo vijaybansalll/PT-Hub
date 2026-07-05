@@ -15,7 +15,7 @@ function FieldLabel({ className, ...props }: React.LabelHTMLAttributes<HTMLLabel
   return (
     <label
       data-slot="field-label"
-      className={cn("text-xs font-semibold tracking-tight text-zinc-500", className)}
+      className={cn("text-xs font-semibold tracking-tight text-neutral-500", className)}
       {...props}
     />
   )

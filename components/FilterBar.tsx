@@ -42,7 +42,7 @@ export default function FilterBar({
 
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-y border-zinc-200/50 py-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-y border-neutral-200/50 py-5">
         {/* Category selection (Mobile only) */}
         <div className="flex md:hidden items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none w-full">
           <Tabs
@@ -50,7 +50,7 @@ export default function FilterBar({
             onValueChange={setSelectedCategory}
             className="w-full"
           >
-            <TabsList className="bg-zinc-100 p-0.5 rounded-full border border-zinc-200 flex gap-0.5 w-fit">
+            <TabsList className="bg-neutral-100 p-0.5 rounded-full border border-neutral-200 flex gap-0.5 w-fit">
               {categories.map((category) => (
                 <TabsTrigger
                   key={category}
@@ -58,8 +58,8 @@ export default function FilterBar({
                   className={cn(
                     "px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer",
                     selectedCategory === category
-                      ? "bg-zinc-900 text-white shadow-sm"
-                      : "text-zinc-650 hover:text-zinc-900"
+                      ? "bg-neutral-900 text-white shadow-sm"
+                      : "text-neutral-650 hover:text-neutral-900"
                   )}
                 >
                   {category}
@@ -76,18 +76,18 @@ export default function FilterBar({
         >
           <div className="relative flex-1 max-w-md">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 z-10">
-              <LuSearch className="h-4.5 w-4.5 text-zinc-400" />
+              <LuSearch className="h-4.5 w-4.5 text-neutral-400" />
             </div>
             <ComboboxInput
               placeholder="Search premium products..."
               value={searchQuery.trim() === "" ? "" : searchQuery}
               onChange={(e) => setSearchQuery(e.target.value || " ")}
-              className="pl-10 pr-10 py-2.5 rounded-full h-10 text-sm bg-white placeholder-zinc-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full"
+              className="pl-10 pr-10 py-2.5 rounded-full h-10 text-sm bg-white placeholder-neutral-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full"
               showTrigger={false}
               showClear={searchQuery.trim() !== ""}
             />
             {products.length > 0 && (
-              <ComboboxContent className="bg-white border border-zinc-200 shadow-md rounded-lg mt-1 w-full max-h-60 overflow-y-auto">
+              <ComboboxContent className="bg-white border border-neutral-200 shadow-md rounded-lg mt-1 w-full max-h-60 overflow-y-auto">
                 <ComboboxList>
                   {products
                     .filter((p) =>
@@ -99,7 +99,7 @@ export default function FilterBar({
                       <ComboboxItem
                         key={product.id}
                         value={product.name}
-                        className="cursor-pointer text-zinc-700 hover:bg-zinc-50"
+                        className="cursor-pointer text-neutral-700 hover:bg-neutral-50"
                       >
                         {product.name}
                       </ComboboxItem>
@@ -108,7 +108,7 @@ export default function FilterBar({
                     p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
                     p.description.toLowerCase().includes(searchQuery.trim().toLowerCase())
                   ).length === 0 && (
-                    <ComboboxEmpty className="py-2 text-center text-zinc-400 text-xs">No matching products</ComboboxEmpty>
+                    <ComboboxEmpty className="py-2 text-center text-neutral-400 text-xs">No matching products</ComboboxEmpty>
                   )}
                 </ComboboxList>
               </ComboboxContent>
@@ -120,16 +120,16 @@ export default function FilterBar({
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50 transition-all w-full sm:w-auto justify-between cursor-pointer">
+            className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-700 shadow-sm hover:bg-neutral-50 transition-all w-full sm:w-auto justify-between cursor-pointer">
             <span className="flex items-center gap-1.5">
               <LuSlidersHorizontal className="h-4 w-4 text-blue-500" />
               Sort:{" "}
-              <span className="text-zinc-900">
+              <span className="text-neutral-900">
                 {sortLabels[sortBy] || "Featured"}
               </span>
             </span>
             <LuChevronDown
-              className={cn("h-4 w-4 text-zinc-500 transition-transform duration-200", isDropdownOpen && "rotate-180")}
+              className={cn("h-4 w-4 text-neutral-500 transition-transform duration-200", isDropdownOpen && "rotate-180")}
             />
           </button>
 
@@ -144,7 +144,7 @@ export default function FilterBar({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl ring-1 ring-black/5 z-50 focus:outline-none">
+                  className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl border border-neutral-200 bg-white p-2 shadow-xl ring-1 ring-black/5 z-50 focus:outline-none">
                   {Object.entries(sortLabels).map(([key, label]) => (
                     <button
                       key={key}
@@ -156,7 +156,7 @@ export default function FilterBar({
                         "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
                         sortBy === key
                           ? "bg-blue-500 text-white"
-                          : "text-zinc-700 hover:bg-zinc-100"
+                          : "text-neutral-700 hover:bg-neutral-100"
                       )}>
                       {label}
                       {sortBy === key && <LuCheck className="h-4 w-4" />}

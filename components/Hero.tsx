@@ -25,10 +25,10 @@ export default function Hero({
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 border border-blue-200/20 mb-2 md:mb-3">
           <LuSparkles className="h-3 w-3" /> {tag}
         </div>
-        <h1 className="mt-0 md:mt-3 text-xl font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
+        <h1 className="mt-0 md:mt-3 text-xl font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-neutral-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
           {title}
         </h1>
-        <p className="mt-2 md:mt-4 max-w-xl text-sm md:text-lg text-zinc-500 mx-auto md:leading-relaxed">
+        <p className="mt-2 md:mt-4 max-w-xl text-sm md:text-lg text-neutral-500 mx-auto md:leading-relaxed">
           {description}
         </p>
       </div>

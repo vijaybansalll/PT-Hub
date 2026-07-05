@@ -17,12 +17,12 @@ export default function FormInput({
 }: FormInputProps) {
   return (
     <div className={cn("space-y-1.5 flex flex-col", span)}>
-      <label className="text-xs font-semibold tracking-tight text-zinc-500">
+      <label className="text-xs font-semibold tracking-tight text-neutral-500">
         {label}
       </label>
       <div className="relative">
         {icon && (
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-400 text-sm">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-neutral-400 text-sm">
             {icon}
           </span>
         )}

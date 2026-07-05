@@ -62,13 +62,13 @@ export default function ProductModal({
           {/* Modal Container Card */}
           <motion.div
             layoutId={`card-${product.id}`}
-            className="relative z-10 w-full max-w-5xl md:overflow-hidden rounded-[28px] bg-white shadow-2xl border border-zinc-200/80 h-fit md:h-[80vh] max-h-[750px] flex flex-col md:flex-row transition-colors duration-300">
+            className="relative z-10 w-full max-w-5xl md:overflow-hidden rounded-[28px] bg-white shadow-2xl border border-neutral-200/80 h-fit md:h-[80vh] max-h-[750px] flex flex-col md:flex-row transition-colors duration-300">
             {/* Close Button */}
             <Button
               variant="ghost"
               size="icon"
               onClick={onClose}
-              className="absolute top-4 right-4 md:top-5 md:right-5 z-20 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-zinc-100/80 text-zinc-700 hover:text-zinc-900 shadow-md hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer border-0">
+              className="absolute top-4 right-4 md:top-5 md:right-5 z-20 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-neutral-100/80 text-neutral-700 hover:text-neutral-900 shadow-md hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer border-0">
               <LuX className="h-4 w-4 md:h-5 md:w-5" />
             </Button>
 
@@ -79,9 +79,9 @@ export default function ProductModal({
               transition={{ delay: 0.1, duration: 0.25 }}
               className="flex flex-col md:flex-row w-full h-full">
               {/* Left Side Media Section: Only video lookbook */}
-              <div className="w-full md:w-1/2 p-2 md:p-8 flex flex-col border-b md:border-b-0 md:border-r border-zinc-100">
+              <div className="w-full md:w-1/2 p-2 md:p-8 flex flex-col border-b md:border-b-0 md:border-r border-neutral-100">
                 {/* Main Media Preview Box */}
-                <div className="relative aspect-square md:aspect-auto md:flex-grow h-full w-full overflow-hidden rounded-3xl md:rounded-2xl bg-zinc-900 flex items-center justify-center shadow-inner group/video">
+                <div className="relative aspect-square md:aspect-auto md:flex-grow h-full w-full overflow-hidden rounded-3xl md:rounded-2xl bg-neutral-900 flex items-center justify-center shadow-inner group/video">
                   <video
                     key={product.id}
                     ref={videoRef}
@@ -92,7 +92,7 @@ export default function ProductModal({
                     playsInline
                     onPlay={() => setIsVideoPlaying(true)}
                     onPause={() => setIsVideoPlaying(false)}
-                    className="h-full w-full object-cover bg-zinc-950"
+                    className="h-full w-full object-cover bg-neutral-950"
                   />
 
                   {/* Video & Category Badges */}
@@ -157,7 +157,7 @@ export default function ProductModal({
 
                   {/* Title & Price */}
                   <div className="mt-3 flex flex-col md:flex-row items-start justify-between gap-0 md:gap-4">
-                    <h2 className="text-lg md:text-2xl font-bold md:font-extrabold text-zinc-900 tracking-tight flex-1">
+                    <h2 className="text-lg md:text-2xl font-bold md:font-extrabold text-neutral-900 tracking-tight flex-1">
                       {product.name}
                     </h2>
                     <div className="flex items-center gap-3 shrink-0">
@@ -171,7 +171,7 @@ export default function ProductModal({
                           "inline-block md:hidden p-2 rounded-full border transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer",
                           isFavorite
                             ? "bg-blue-500/10 text-blue-600 border-blue-500/30"
-                            : "bg-zinc-50 text-zinc-400 border-zinc-200 hover:text-zinc-600",
+                            : "bg-neutral-50 text-neutral-400 border-neutral-200 hover:text-neutral-600",
                         )}
                         aria-label={
                           isFavorite
@@ -198,29 +198,29 @@ export default function ProductModal({
                             "h-3 w-3 md:h-4.5 md:w-4.5",
                             i < Math.floor(product.rating)
                               ? "fill-amber-400 text-amber-400"
-                              : "text-zinc-300",
+                              : "text-neutral-300",
                           )}
                         />
                       ))}
                     </div>
-                    <span className="text-xs font-bold text-zinc-700 ml-1">
+                    <span className="text-xs font-bold text-neutral-700 ml-1">
                       {product.rating}
                     </span>
-                    <span className="text-xs text-zinc-400">
+                    <span className="text-xs text-neutral-400">
                       ({product.reviewsCount} verified reviews)
                     </span>
                   </div>
 
-                  <div className="border-b border-zinc-100 md:my-4 my-1" />
+                  <div className="border-b border-neutral-100 md:my-4 my-1" />
 
                   {/* Description text */}
-                  <p className="text-xs md:text-sm text-zinc-600 md:leading-relaxed">
+                  <p className="text-xs md:text-sm text-neutral-600 md:leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
                 {/* Bottom Action buttons */}
-                <div className="mt-4 md:mt-8 pt-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-3">
+                <div className="mt-4 md:mt-8 pt-4 border-t border-neutral-100 flex flex-col sm:flex-row gap-3">
                   {/* Buy now trigger */}
                   <Button
                     onClick={onBuyNow}
@@ -234,10 +234,10 @@ export default function ProductModal({
                     variant={isFavorite ? "secondary" : "outline"}
                     onClick={onToggleFavorite}
                     className={cn(
-                      "hidden md:flex py-3 px-6 rounded-full font-bold text-sm items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer h-12 border border-zinc-200",
+                      "hidden md:flex py-3 px-6 rounded-full font-bold text-sm items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer h-12 border border-neutral-200",
                       isFavorite
                         ? "bg-blue-500/10 text-blue-600 border-blue-500/30 hover:bg-blue-500/20"
-                        : "bg-white text-zinc-700 hover:bg-zinc-50",
+                        : "bg-white text-neutral-700 hover:bg-neutral-50",
                     )}>
                     <LuHeart
                       className={cn(

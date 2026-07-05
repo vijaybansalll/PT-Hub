@@ -5,7 +5,7 @@ function Separator({ className, ...props }: React.HTMLAttributes<HTMLDivElement>
   return (
     <div
       data-slot="separator"
-      className={cn("h-px w-full bg-zinc-200 dark:bg-zinc-800", className)}
+      className={cn("h-px w-full bg-neutral-200 dark:bg-neutral-800", className)}
       {...props}
     />
   )

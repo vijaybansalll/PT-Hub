@@ -24,7 +24,7 @@ export default function ProductCard({
     <motion.div
       layoutId={`card-${product.id}`}
       onClick={onClick}
-      className="group inflected-card flex flex-col justify-between border border-zinc-200/50 bg-white p-3 hover:shadow-xl hover:shadow-blue-950/5 cursor-pointer transition-all duration-300"
+      className="group inflected-card flex flex-col justify-between border border-neutral-200/50 bg-white p-3 hover:shadow-xl hover:shadow-blue-950/5 cursor-pointer transition-all duration-300"
       style={{ contentVisibility: "auto", ["--card-rounding" as any]: "24px" }}>
       {/* Badges indicators */}
       <div className="absolute top-6 left-6 z-10 flex flex-col gap-1.5 font-sans">
@@ -56,11 +56,11 @@ export default function ProductCard({
         variant="ghost"
         size="icon"
         onClick={(e) => onToggleFavorite(product.id, e)}
-        className="absolute top-5 right-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 border border-zinc-200/50 text-zinc-500 hover:text-zinc-900 shadow-sm hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer">
+        className="absolute top-5 right-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 border border-neutral-200/50 text-neutral-500 hover:text-neutral-900 shadow-sm hover:scale-110 active:scale-95 transition-all backdrop-blur-md cursor-pointer">
         <LuHeart
           className={cn(
             "h-4.5 w-4.5 transition-colors",
-            isFavorite ? "fill-red-500 text-red-500" : "text-zinc-500",
+            isFavorite ? "fill-red-500 text-red-500" : "text-neutral-500",
           )}
         />
       </Button>
@@ -87,25 +87,25 @@ export default function ProductCard({
           <span className="text-xs font-bold text-blue-500">
             {product.category}
           </span>
-          <h3 className="mt-1 text-base font-bold text-zinc-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+          <h3 className="mt-1 text-base font-bold text-neutral-900 group-hover:text-blue-600 transition-colors line-clamp-1">
             {product.name}
           </h3>
 
           {/* Review Stats */}
           <div className="mt-1.5 flex items-center gap-1">
             <LuStar className="h-4 w-4 fill-amber-400 text-amber-400" />
-            <span className="text-xs font-bold text-zinc-700">
+            <span className="text-xs font-bold text-neutral-700">
               {product.rating}
             </span>
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-neutral-400">
               ({product.reviewsCount} reviews)
             </span>
           </div>
         </div>
 
         {/* Footer Area with Price */}
-        <div className="mt-4 flex items-center justify-between border-t border-zinc-100 pt-3">
-          <span className="text-lg font-extrabold text-zinc-900">
+        <div className="mt-4 flex items-center justify-between border-t border-neutral-100 pt-3">
+          <span className="text-lg font-extrabold text-neutral-900">
             ₹{product.price.toFixed(2)}
           </span>
         </div>

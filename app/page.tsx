@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <div className="animate-fade-in">
-      <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 font-sans">
+      <div className="min-h-screen bg-neutral-50 text-neutral-900 transition-colors duration-300 font-sans">
         {/* Navigation bar component */}
         <Navbar favoritesCount={favorites.length} />
 
@@ -49,10 +49,10 @@ export default function Home() {
               <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 border border-blue-200/20 mb-2 md:mb-3">
                 <span>New Arrivals</span>
               </div>
-              <h2 className="text-lg md:text-3xl font-semibold md:font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+              <h2 className="text-lg md:text-3xl font-semibold md:font-extrabold tracking-tight text-neutral-900 sm:text-4xl">
                 Latest Arrivals
               </h2>
-              <p className="mt-3 text-sm md:text-lg text-zinc-500 max-w-2xl">
+              <p className="mt-3 text-sm md:text-lg text-neutral-500 max-w-2xl">
                 Discover our latest viral smart Chinese gadgets, daily
                 life-saving utilities, and premium handcrafted jewellery.
               </p>
@@ -81,7 +81,7 @@ export default function Home() {
           <div className="mt-8 md:mt-16 text-center">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white hover:bg-zinc-100 px-8 py-4 text-base font-semibold text-zinc-700 transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-sm">
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white hover:bg-neutral-100 px-8 py-4 text-base font-semibold text-neutral-700 transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-sm">
               <LuShoppingBag className="h-5 w-5 text-blue-600" />
               <span>View Full Catalog ({products.length} items)</span>
             </Link>

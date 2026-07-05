@@ -23,7 +23,7 @@ const PlusIcon = ({
   return (
     <span
       className={cn(
-        "text-zinc-300 text-base font-semibold select-none pointer-events-none z-10",
+        "text-neutral-300 text-base font-semibold select-none pointer-events-none z-10",
         classes[position]
       )}
     >
@@ -41,7 +41,7 @@ export default function Cta({
   const cleanPhone = phone.replace(/\s+/g, "");
   return (
     <section className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-12 font-sans">
-      <div className="relative mx-auto flex w-full flex-col justify-between gap-y-5 border-y border-zinc-200 px-8 py-10 bg-white/40 backdrop-blur-sm">
+      <div className="relative mx-auto flex w-full flex-col justify-between gap-y-5 border-y border-neutral-200 px-8 py-10 bg-white/40 backdrop-blur-sm">
         
         {/* Corner Plus Grid Accents */}
         <PlusIcon position="top-left" />
@@ -50,20 +50,20 @@ export default function Cta({
         <PlusIcon position="bottom-right" />
 
         {/* Layout Border Accents */}
-        <div className="pointer-events-none absolute -inset-y-6 -left-px w-px border-l border-zinc-200" />
-        <div className="pointer-events-none absolute -inset-y-6 -right-px w-px border-r border-zinc-200" />
-        <div className="absolute top-0 left-1/2 -z-10 h-full border-l border-dashed border-zinc-200/50" />
+        <div className="pointer-events-none absolute -inset-y-6 -left-px w-px border-l border-neutral-200" />
+        <div className="pointer-events-none absolute -inset-y-6 -right-px w-px border-r border-neutral-200" />
+        <div className="absolute top-0 left-1/2 -z-10 h-full border-l border-dashed border-neutral-200/50" />
 
         <div className="flex flex-col items-center gap-1">
           <div className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold text-blue-600 border border-blue-200/10">
             <LuSparkles className="h-3 w-3" /> PT HUB PRIVILEGES
           </div>
-          <h2 className="text-center font-extrabold text-2xl md:text-3xl text-zinc-900 tracking-tight mt-3">
+          <h2 className="text-center font-extrabold text-2xl md:text-3xl text-neutral-900 tracking-tight mt-3">
             {title}
           </h2>
         </div>
 
-        <p className="text-balance text-center text-sm md:text-base text-zinc-500 max-w-xl mx-auto leading-relaxed">
+        <p className="text-balance text-center text-sm md:text-base text-neutral-500 max-w-xl mx-auto leading-relaxed">
           {description}
         </p>
 
@@ -82,7 +82,7 @@ export default function Cta({
             href={`https://wa.me/${whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-full border border-zinc-200 text-zinc-700 font-semibold text-xs hover:bg-zinc-50 active:scale-95 transition-all cursor-pointer bg-white/60 flex items-center gap-1.5 shadow-sm"
+            className="px-5 py-2.5 rounded-full border border-neutral-200 text-neutral-700 font-semibold text-xs hover:bg-neutral-50 active:scale-95 transition-all cursor-pointer bg-white/60 flex items-center gap-1.5 shadow-sm"
           >
             <LuMessageSquare className="h-3.5 w-3.5 text-blue-500" />
             <span>Connect with us!</span>

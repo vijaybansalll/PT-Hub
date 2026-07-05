@@ -24,44 +24,44 @@ export default function FloatingContact() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.96 }}
             transition={{ duration: 0.15 }}
-            className="flex flex-col gap-1 bg-white p-2 rounded-2xl border border-zinc-200 shadow-2xl w-60 origin-bottom-right">
-            <span className="text-xs font-extrabold text-zinc-400  px-2 py-1">
+            className="flex flex-col gap-1 bg-white p-2 rounded-2xl border border-neutral-200 shadow-2xl w-60 origin-bottom-right">
+            <span className="text-xs font-extrabold text-neutral-400  px-2 py-1">
               Contact Us
             </span>
 
             {/* Call Option */}
             <a
               href={`tel:${demoCallNumber.replace(/\s+/g, "")}`}
-              className="flex items-center gap-3 p-2 rounded-xl hover:bg-blue-50/50 text-zinc-700 transition-colors cursor-pointer group">
+              className="flex items-center gap-3 p-2 rounded-xl hover:bg-blue-50/50 text-neutral-700 transition-colors cursor-pointer group">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
                 <LuPhone className="h-4.5 w-4.5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-extrabold text-zinc-800 leading-tight group-hover:text-blue-700 transition-colors">
+                <span className="text-xs font-extrabold text-neutral-800 leading-tight group-hover:text-blue-700 transition-colors">
                   Call Support
                 </span>
-                <span className="text-[11px] text-zinc-400 mt-0.5">
+                <span className="text-[11px] text-neutral-400 mt-0.5">
                   {demoCallNumber}
                 </span>
               </div>
             </a>
 
-            <div className="border-t border-zinc-100 my-0.5" />
+            <div className="border-t border-neutral-100 my-0.5" />
 
             {/* WhatsApp Option */}
             <a
               href={`https://wa.me/${demoWhatsAppNumber.replace(/[^0-9]/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 p-2 rounded-xl hover:bg-green-50/50 text-zinc-700 transition-colors cursor-pointer group">
+              className="flex items-center gap-3 p-2 rounded-xl hover:bg-green-50/50 text-neutral-700 transition-colors cursor-pointer group">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-green-600/20 group-hover:scale-105 transition-transform">
                 <FaWhatsapp className="h-4.5 w-4.5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-extrabold text-zinc-800 leading-tight group-hover:text-green-700 transition-colors">
+                <span className="text-xs font-extrabold text-neutral-800 leading-tight group-hover:text-green-700 transition-colors">
                   WhatsApp Us
                 </span>
-                <span className="text-[11px] text-zinc-400 mt-0.5">
+                <span className="text-[11px] text-neutral-400 mt-0.5">
                   {demoCallNumber}
                 </span>
               </div>
@@ -77,7 +77,7 @@ export default function FloatingContact() {
         className={cn(
           "flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg cursor-pointer transition-all duration-300 active:scale-95 border",
           isOpen
-            ? "bg-zinc-900 hover:bg-zinc-800 border-zinc-900 shadow-zinc-800/20"
+            ? "bg-neutral-900 hover:bg-neutral-800 border-neutral-900 shadow-neutral-800/20"
             : "bg-blue-600 hover:bg-blue-500 border-blue-700 shadow-blue-600/30 hover:scale-110",
         )}>
         <AnimatePresence mode="wait">

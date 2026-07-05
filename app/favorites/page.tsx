@@ -36,18 +36,18 @@ export default function FavoritesPage() {
 
   return (
     <div className="animate-fade-in">
-      <div className="min-h-screen bg-zinc-50 text-zinc-900 transition-colors duration-300 font-sans">
+      <div className="min-h-screen bg-neutral-50 text-neutral-900 transition-colors duration-300 font-sans">
         {/* Navigation Header */}
-        <header className="sticky top-0 z-40 w-full border-b border-zinc-200/50 bg-white/70 backdrop-blur-xl transition-colors duration-300">
+        <header className="sticky top-0 z-40 w-full border-b border-neutral-200/50 bg-white/70 backdrop-blur-xl transition-colors duration-300">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3">
               <Link
                 href="/"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200/50 bg-white hover:bg-zinc-100 transition-colors cursor-pointer"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200/50 bg-white hover:bg-neutral-100 transition-colors cursor-pointer"
                 title="Back to Shop">
-                <LuArrowLeft className="h-5 w-5 text-zinc-600" />
+                <LuArrowLeft className="h-5 w-5 text-neutral-600" />
               </Link>
-              <span className="bg-gradient-to-r from-zinc-900 to-zinc-600 bg-clip-text text-lg font-bold tracking-tight text-transparent">
+              <span className="bg-gradient-to-r from-neutral-900 to-neutral-600 bg-clip-text text-lg font-bold tracking-tight text-transparent">
                 Favourites Collection
               </span>
             </div>
@@ -61,10 +61,10 @@ export default function FavoritesPage() {
             <div className="h-96 w-96 rounded-full bg-blue-600 ml-12 animate-bounce duration-10000" />
           </div>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-            <h1 className="text-lg font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
+            <h1 className="text-lg font-semibold md:font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-neutral-900 via-blue-950 to-blue-800 bg-clip-text text-transparent">
               Your Loved Items
             </h1>
-            <p className="mt-1 md:mt-2 max-w-xl text-sm md:text-lg text-zinc-500">
+            <p className="mt-1 md:mt-2 max-w-xl text-sm md:text-lg text-neutral-500">
               Manage your personal favorites collection here. Click any card to
               explore further options or proceed to purchase.
             </p>
@@ -74,15 +74,15 @@ export default function FavoritesPage() {
         {/* Favorite Products Listing */}
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           {favoriteProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-6 md:py-24 text-center border-2 border-dashed border-zinc-200 rounded-3xl p-4 md:p-12 bg-white/30 backdrop-blur-sm">
+            <div className="flex flex-col items-center justify-center py-6 md:py-24 text-center border-2 border-dashed border-neutral-200 rounded-3xl p-4 md:p-12 bg-white/30 backdrop-blur-sm">
               <div className="flex size-10 md:size-16 items-center justify-center rounded-full bg-blue-100/50 text-blue-500 mb-6 relative">
                 <LuHeart className="size-6 md:size-8 fill-blue-500/20 animate-pulse" />
                 <div className="absolute inset-0 rounded-full border border-blue-500/30 animate-ping" />
               </div>
-              <h3 className="text-base md:text-xl font-semibold md:font-bold text-zinc-900">
+              <h3 className="text-base md:text-xl font-semibold md:font-bold text-neutral-900">
                 Your list is looking empty
               </h3>
-              <p className="mt-2 text-xs md:text-sm text-zinc-500 max-w-sm">
+              <p className="mt-2 text-xs md:text-sm text-neutral-500 max-w-sm">
                 Add items to your favorites while shopping and they will appear
                 here.
               </p>
