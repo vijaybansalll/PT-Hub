@@ -156,7 +156,7 @@ function ProductsContent() {
       {/* Product Grid listing */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 md:py-8 flex-grow w-full">
         {isLoading ? (
-          <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          <div className="grid grid-cols-2 gap-y-4 sm:gap-y-10 gap-x-3.5 sm:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {[...Array(8)].map((_, idx) => (
               <div key={idx} className="border border-neutral-200/50 bg-white p-3 rounded-xl space-y-4">
                 <Skeleton className="aspect-square w-full rounded-lg bg-neutral-200/80 h-48 sm:h-64" />
@@ -191,7 +191,7 @@ function ProductsContent() {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          <div className="grid grid-cols-2 gap-y-4 sm:gap-y-10 gap-x-3.5 sm:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {paginatedProducts.map((product) => (
               <ProductCard
                 key={product.id}

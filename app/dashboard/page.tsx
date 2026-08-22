@@ -529,7 +529,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Statistical Cards Panel */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
           {statCardsConfig.map((card) => (
             <StatCard key={card.id} {...card} />
           ))}
@@ -664,78 +664,95 @@ export default function DashboardPage() {
           ) : (
             <>
               {/* Desktop Modern Table View (Visible only on sm screens and larger) */}
-              <div className="hidden sm:block">
+              <div className="hidden sm:block border border-neutral-200/50 rounded-xl overflow-hidden bg-white shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-neutral-200 hover:bg-transparent text-[11px] font-bold text-neutral-500 bg-neutral-55/10">
-                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-neutral-500">
-                        Product Details
+                    <TableRow className="border-b border-neutral-200/60 hover:bg-transparent bg-neutral-50/60 text-[11px] font-semibold tracking-wider text-neutral-500 uppercase">
+                      <TableHead className="h-10 px-5 align-middle text-left font-semibold text-neutral-500">
+                        Product
                       </TableHead>
-                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-neutral-500 hidden md:table-cell">
+                      <TableHead className="h-10 px-5 align-middle text-left font-semibold text-neutral-500 hidden md:table-cell">
                         Category
                       </TableHead>
-                      <TableHead className="h-10 px-6 align-middle text-right font-semibold text-neutral-500">
+                      <TableHead className="h-10 px-5 align-middle text-right font-semibold text-neutral-500">
                         Price
                       </TableHead>
-                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-neutral-500 hidden lg:table-cell">
+                      <TableHead className="h-10 px-5 align-middle text-left font-semibold text-neutral-500 hidden lg:table-cell">
                         Rating
                       </TableHead>
-                      <TableHead className="h-10 px-6 align-middle text-left font-semibold text-neutral-500 hidden xl:table-cell">
+                      <TableHead className="h-10 px-5 align-middle text-left font-semibold text-neutral-500 hidden xl:table-cell">
                         Status
                       </TableHead>
-                      <TableHead className="h-10 px-6 align-middle text-center font-semibold text-neutral-500">
+                      <TableHead className="h-10 px-5 align-middle text-center font-semibold text-neutral-500">
                         Actions
                       </TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody className="divide-y divide-neutral-100 text-neutral-650">
+                  <TableBody className="divide-y divide-neutral-100 text-neutral-600">
                     {filteredProducts.map((product) => (
                       <TableRow
                         key={product.id}
-                        className="border-b border-neutral-200 transition-colors hover:bg-neutral-50/40">
-                        <TableCell className="px-6 py-4 align-middle whitespace-normal">
-                          <div>
-                            <div className="font-bold text-neutral-900 leading-normal">
-                              {product.name}
+                        className="border-b border-neutral-100/70 transition-colors hover:bg-neutral-50/30">
+                        <TableCell className="px-5 py-3 align-middle whitespace-normal">
+                          <div className="flex items-center gap-3">
+                            {/* Video Thumbnail */}
+                            <div className="relative w-12 h-12 shrink-0 overflow-hidden rounded bg-neutral-950 border border-neutral-200/20 flex items-center justify-center">
+                              <video
+                                src={`${product.video}#t=0.1`}
+                                preload="metadata"
+                                playsInline
+                                muted
+                                className="h-full w-full object-cover opacity-90"
+                              />
+                              <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                                <div className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-white/95 shadow-sm">
+                                  <svg className="w-1.5 h-1.5 text-neutral-800 fill-neutral-800 translate-x-[0.25px]" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
-                            <div className="text-xs text-neutral-400 mt-1 max-w-md line-clamp-1">
-                              {product.description ||
-                                "No description provided."}
+                            
+                            <div className="min-w-0">
+                              <div className="font-semibold text-neutral-900 leading-normal truncate">
+                                {product.name}
+                              </div>
+                              <div className="text-[11px] text-neutral-400 mt-0.5 max-w-md truncate">
+                                {product.description || "No description provided."}
+                              </div>
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="px-6 py-4 align-middle hidden md:table-cell">
-                          <Badge
-                            variant="secondary"
-                            className="px-2 py-0.5 text-[11px] font-semibold text-neutral-600 bg-neutral-100 border border-neutral-200 h-auto rounded-md">
+                        <TableCell className="px-5 py-3 align-middle hidden md:table-cell">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-neutral-100 border border-neutral-200/50 text-neutral-600 h-auto">
                             {product.category}
-                          </Badge>
+                          </span>
                         </TableCell>
-                        <TableCell className="px-6 py-4 align-middle text-right font-extrabold text-neutral-900">
-                          ₹{product.price.toFixed(2)}
+                        <TableCell className="px-5 py-3 align-middle text-right font-bold text-neutral-900">
+                          ₹{product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                         </TableCell>
-                        <TableCell className="px-6 py-4 align-middle hidden lg:table-cell">
+                        <TableCell className="px-5 py-3 align-middle hidden lg:table-cell">
                           <div className="flex items-center gap-1">
-                            <LuStar className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                            <span className="font-bold text-neutral-800">
+                            <LuStar className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                            <span className="font-semibold text-neutral-800 text-xs">
                               {product.rating.toFixed(1)}
                             </span>
-                            <span className="text-[11px] text-neutral-400 font-medium">
+                            <span className="text-[10px] text-neutral-450 font-normal">
                               ({product.reviewsCount})
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell className="px-6 py-4 align-middle hidden xl:table-cell">
-                          <div className="flex gap-2">
+                        <TableCell className="px-5 py-3 align-middle hidden xl:table-cell">
+                          <div className="flex gap-1.5">
                             {product.isNew && (
-                              <Badge className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-600 h-auto">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold bg-blue-50/70 border border-blue-100/40 text-blue-600 h-auto">
                                 New
-                              </Badge>
+                              </span>
                             )}
                             {product.isPopular && (
-                              <Badge className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600 h-auto">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold bg-amber-50/70 border border-amber-100/40 text-amber-700 h-auto">
                                 Popular
-                              </Badge>
+                              </span>
                             )}
                             {!product.isNew && !product.isPopular && (
                               <span className="text-xs text-neutral-300 font-bold">
@@ -744,14 +761,14 @@ export default function DashboardPage() {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="px-6 py-4 align-middle">
-                          <div className="flex items-center justify-center gap-2">
+                        <TableCell className="px-5 py-3 align-middle">
+                          <div className="flex items-center justify-center gap-1.5">
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => handleOpenEditModal(product)}
                               title="Edit Product"
-                              className="text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 cursor-pointer h-8 w-8 p-0">
+                              className="text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 cursor-pointer h-8 w-8 p-0 rounded">
                               <LuPencil className="w-3.5 h-3.5" />
                             </Button>
                             <Button
@@ -759,8 +776,8 @@ export default function DashboardPage() {
                               size="sm"
                               onClick={() => handleOpenDeleteModal(product)}
                               title="Delete Product"
-                              className="text-neutral-500 hover:text-red-650 hover:bg-red-55 cursor-pointer h-8 w-8 p-0">
-                              <LuTrash2 className="w-3.5 h-3.5" />
+                              className="text-neutral-500 hover:text-red-650 hover:bg-red-50/50 cursor-pointer h-8 w-8 p-0 rounded border-neutral-250">
+                              <LuTrash2 className="w-3.5 h-3.5 text-red-500" />
                             </Button>
                           </div>
                         </TableCell>
@@ -769,78 +786,89 @@ export default function DashboardPage() {
                   </TableBody>
                 </Table>
               </div>
-
               {/* Mobile Modern Card List View (Visible only on mobile screens) */}
-              <div className="sm:hidden flex flex-col gap-3 p-4 bg-neutral-50/50">
+              <div className="sm:hidden flex flex-col gap-2 p-2 bg-neutral-50/50">
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm hover:shadow-md transition-all duration-200">
-                    {/* Header line: Name and Category badge */}
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                      <div>
-                        <h4 className="font-bold text-neutral-900 text-sm leading-snug">
-                          {product.name}
-                        </h4>
-                        <Badge
-                          variant="secondary"
-                          className="px-2 py-0.5 mt-1 rounded-md text-[10px] font-semibold bg-neutral-100 border border-neutral-200/50 text-neutral-600 h-auto">
-                          {product.category}
-                        </Badge>
+                    className="rounded-lg border border-neutral-200/40 bg-white p-2.5 shadow-[0_1px_2px_0_rgba(0,0,0,0.02)] transition-all duration-200 flex flex-col gap-2">
+                    {/* Upper row: Thumbnail and Details */}
+                    <div className="flex gap-2.5">
+                      {/* Left side: Thumbnail */}
+                      <div className="relative w-16 h-16 shrink-0 overflow-hidden rounded bg-neutral-950 border border-neutral-200/20 flex items-center justify-center">
+                        <video
+                          src={`${product.video}#t=0.1`}
+                          preload="metadata"
+                          playsInline
+                          muted
+                          className="h-full w-full object-cover opacity-90"
+                        />
+                        {/* Tiny play indicator */}
+                        <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-xs">
+                            <svg className="w-1.5 h-1.5 text-neutral-800 fill-neutral-800 translate-x-[0.5px]" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-sm font-extrabold text-neutral-900">
-                        ₹{product.price.toFixed(2)}
+                      
+                      {/* Right side: Details */}
+                      <div className="flex-grow min-w-0 flex flex-col justify-between py-0.5">
+                        <div>
+                          <div className="flex items-start justify-between gap-1.5">
+                            <h4 className="font-semibold text-neutral-900 text-xs leading-tight truncate">
+                              {product.name}
+                            </h4>
+                            <span className="text-xs font-bold text-neutral-950 shrink-0">
+                              ₹{product.price.toFixed(0)}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 mt-1 flex-wrap">
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 text-[9px] font-medium border border-neutral-200/40">
+                              {product.category}
+                            </span>
+                            {product.isNew && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-blue-50/70 text-blue-600 text-[9px] font-medium border border-blue-100/40">
+                                New
+                              </span>
+                            )}
+                            {product.isPopular && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-amber-50/70 text-amber-700 text-[9px] font-medium border border-amber-150/40">
+                                Bestseller
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Rating row */}
+                        <div className="flex items-center gap-1 text-[10px] text-neutral-500 mt-1">
+                          <LuStar className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
+                          <span className="font-semibold text-neutral-700">{product.rating.toFixed(1)}</span>
+                          <span>•</span>
+                          <span>{product.reviewsCount} reviews</span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Description line */}
-                    {product.description && (
-                      <p className="text-xs text-neutral-500 line-clamp-2 mb-3 leading-relaxed">
-                        {product.description}
-                      </p>
-                    )}
-
-                    {/* Bottom row: Badges and Action buttons */}
-                    <div className="flex flex-col gap-3 pt-3 border-t border-neutral-100 mt-2">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <div className="flex items-center gap-0.5 text-neutral-700 text-xs font-bold bg-neutral-55 border border-neutral-200 px-2 py-0.5 rounded">
-                          <LuStar className="w-3 h-3 fill-amber-400 text-amber-455 animate-pulse-slow" />
-                          <span>{product.rating.toFixed(1)}</span>
-                          <span className="text-[10px] text-neutral-400 font-medium ml-0.5">
-                            ({product.reviewsCount})
-                          </span>
-                        </div>
-
-                        {product.isNew && (
-                          <Badge className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-50 border border-emerald-250 text-emerald-600 h-auto">
-                            New
-                          </Badge>
-                        )}
-                        {product.isPopular && (
-                          <Badge className="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-50 border border-amber-250 text-amber-600 h-auto">
-                            Popular
-                          </Badge>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2 w-full pt-1">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleOpenEditModal(product)}
-                          className="flex-1 text-neutral-655 hover:text-neutral-900 hover:bg-neutral-50 h-8 text-xs font-semibold cursor-pointer border border-neutral-200">
-                          <LuPencil className="w-3.5 h-3.5 mr-1" />
-                          <span>Edit</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleOpenDeleteModal(product)}
-                          className="flex-1 text-red-655 hover:bg-red-55 h-8 text-xs font-semibold cursor-pointer border border-red-100 bg-red-50/50">
-                          <LuTrash2 className="w-3.5 h-3.5 mr-1" />
-                          <span>Delete</span>
-                        </Button>
-                      </div>
+                    {/* Actions row */}
+                    <div className="flex items-center gap-2 pt-2 border-t border-neutral-100/70">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOpenEditModal(product)}
+                        className="flex-1 rounded h-7.5 text-[11px] font-medium text-neutral-600 hover:text-neutral-900 bg-white hover:bg-neutral-50 border-neutral-200 cursor-pointer shadow-none">
+                        <LuPencil className="w-3 h-3 mr-1 text-neutral-500" />
+                        <span>Edit</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleOpenDeleteModal(product)}
+                        className="flex-1 rounded h-7.5 text-[11px] font-medium text-red-600 hover:bg-red-50/40 bg-red-50/10 border-red-100 cursor-pointer shadow-none">
+                        <LuTrash2 className="w-3 h-3 mr-1 text-red-500" />
+                        <span>Delete</span>
+                      </Button>
                     </div>
                   </div>
                 ))}

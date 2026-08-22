@@ -17,26 +17,24 @@ export default function StatCard({
   value,
   subtitle,
   icon,
-  iconColor = "text-neutral-500",
+  iconColor = "text-neutral-400",
   subtitleColor = "text-neutral-400",
 }: StatCardProps) {
   return (
-    <div className="rounded-xl border border-neutral-250 bg-white text-neutral-950 shadow-xs p-4 md:p-6 flex flex-col transition-all hover:shadow-sm duration-200">
-      <div className="flex flex-row items-center justify-between space-y-0 pb-1 md:pb-2">
-        <span className="text-xs font-semibold tracking-tight text-neutral-500">
+    <div className="rounded-xl border border-neutral-200/50 bg-white p-4.5 flex flex-col justify-between transition-all duration-200 shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]">
+      <div className="flex flex-row items-center justify-between space-y-0">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
           {title}
         </span>
-        <div className={cn("text-neutral-450", iconColor)}>{icon}</div>
+        <div className={cn("shrink-0", iconColor)}>
+          {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5" })}
+        </div>
       </div>
-      <div className="mt-1">
-        <div className="text-2xl font-bold tracking-tight text-neutral-900">
+      <div className="mt-2.5">
+        <div className="text-2xl font-semibold tracking-tight text-neutral-900 leading-none">
           {value}
         </div>
-        <p
-          className={cn(
-            "text-[10px] text-neutral-400 font-semibold mt-1",
-            subtitleColor,
-          )}>
+        <p className={cn("text-[11px] mt-2 font-normal leading-none", subtitleColor)}>
           {subtitle}
         </p>
       </div>
