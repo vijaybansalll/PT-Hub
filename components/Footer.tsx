@@ -4,8 +4,8 @@ import { LuPhone } from "react-icons/lu";
 import Logo from "./Logo";
 
 export default function Footer() {
-  const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 94172 12422";
-  const whatsapp = process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919417212422";
+  const phone = process.env.CONTACT_PHONE || "+91 78890 28597";
+  const whatsapp = process.env.CONTACT_WHATSAPP || "917889028597";
   const cleanPhone = phone.replace(/\s+/g, "");
 
   const navLinks = [

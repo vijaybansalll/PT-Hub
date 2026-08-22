@@ -9,10 +9,8 @@ import { cn } from "@/app/utils/cn";
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const demoCallNumber =
-    process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 94172 12422";
-  const demoWhatsAppNumber =
-    process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919417212422";
+  const demoCallNumber = process.env.CONTACT_PHONE || "+91 78890 28597";
+  const demoWhatsAppNumber = process.env.CONTACT_WHATSAPP || "917889028597";
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3 font-sans select-none">

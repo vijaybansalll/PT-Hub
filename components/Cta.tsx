@@ -24,9 +24,8 @@ const PlusIcon = ({
     <span
       className={cn(
         "text-neutral-300 text-base font-semibold select-none pointer-events-none z-10",
-        classes[position]
-      )}
-    >
+        classes[position],
+      )}>
       +
     </span>
   );
@@ -36,13 +35,12 @@ export default function Cta({
   title = "Get Smarter Gadgets & Exquisite Jewellery First",
   description = "Subscribe to the PT Hub club to receive 15% off your first import order, weekly drops of viral smart utilities, and early access to handcrafted jewellery collections.",
 }: CtaProps) {
-  const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 94172 12422";
-  const whatsapp = process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919417212422";
+  const phone = process.env.CONTACT_PHONE || "+91 78890 28597";
+  const whatsapp = process.env.CONTACT_WHATSAPP || "917889028597";
   const cleanPhone = phone.replace(/\s+/g, "");
   return (
     <section className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-12 font-sans">
       <div className="relative mx-auto flex w-full flex-col justify-between gap-y-5 border-y border-neutral-200 px-8 py-10 bg-white/40 backdrop-blur-sm">
-        
         {/* Corner Plus Grid Accents */}
         <PlusIcon position="top-left" />
         <PlusIcon position="top-right" />
@@ -71,8 +69,7 @@ export default function Cta({
           {/* Call now! */}
           <a
             href={`tel:${cleanPhone}`}
-            className="px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 hover:shadow-blue-600/50 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
-          >
+            className="px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 hover:shadow-blue-600/50 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer">
             <LuPhone className="h-3.5 w-3.5" />
             <span>Call now!</span>
           </a>
@@ -82,8 +79,7 @@ export default function Cta({
             href={`https://wa.me/${whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-full border border-neutral-200 text-neutral-700 font-semibold text-xs hover:bg-neutral-50 active:scale-95 transition-all cursor-pointer bg-white/60 flex items-center gap-1.5 shadow-sm"
-          >
+            className="px-5 py-2.5 rounded-full border border-neutral-200 text-neutral-700 font-semibold text-xs hover:bg-neutral-50 active:scale-95 transition-all cursor-pointer bg-white/60 flex items-center gap-1.5 shadow-sm">
             <LuMessageSquare className="h-3.5 w-3.5 text-blue-500" />
             <span>Connect with us!</span>
           </a>
