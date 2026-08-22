@@ -99,7 +99,6 @@ const Login = () => {
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none"></div>
 
       <div className="relative w-full max-w-sm overflow-hidden rounded-xl border border-neutral-200 bg-white px-8 py-8 shadow-md z-10">
-
         <div className="relative isolate flex flex-col items-center">
           <Logo showText={false} className="scale-100" />
           <p className="mt-4 font-bold text-neutral-900 text-lg">
@@ -118,7 +117,7 @@ const Login = () => {
                   <Input
                     aria-invalid={fieldState.invalid}
                     className="w-full bg-white h-9 text-xs"
-                    placeholder="admin@project.com"
+                    placeholder="Enter email id"
                     type="email"
                     disabled={isLoading}
                     {...field}
@@ -136,7 +135,7 @@ const Login = () => {
                   <Input
                     aria-invalid={fieldState.invalid}
                     className="w-full bg-white h-9 text-xs"
-                    placeholder="••••••••"
+                    placeholder="Enter password"
                     type="password"
                     disabled={isLoading}
                     {...field}
