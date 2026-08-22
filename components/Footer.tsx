@@ -20,11 +20,11 @@ export default function Footer() {
       href: "https://www.instagram.com/goel.hub__2412/",
       icon: <FaInstagram className="h-5 w-5" />,
     },
-    {
-      label: "Facebook",
-      href: "https://facebook.com",
-      icon: <FaFacebookF className="h-5 w-5" />,
-    },
+    // {
+    //   label: "Facebook",
+    //   href: "https://facebook.com",
+    //   icon: <FaFacebookF className="h-5 w-5" />,
+    // },
     {
       label: "WhatsApp",
       href: `https://wa.me/${whatsapp}`,
