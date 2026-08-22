@@ -27,7 +27,7 @@ export default function StatCard({
           {title}
         </span>
         <div className={cn("shrink-0", iconColor)}>
-          {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5" })}
+          {React.cloneElement(icon as React.ReactElement<any>, { className: "w-5 h-5" })}
         </div>
       </div>
       <div className="mt-2.5">

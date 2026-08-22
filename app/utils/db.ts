@@ -18,7 +18,7 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-let globalWithMongoose = global as typeof globalThis & {
+const globalWithMongoose = global as typeof globalThis & {
   mongoose?: MongooseCache;
 };
 

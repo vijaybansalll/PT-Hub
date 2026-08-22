@@ -137,7 +137,7 @@ export default function DashboardPage() {
   }, [router]);
 
   // Fetch all products
-  const fetchProducts = async () => {
+  async function fetchProducts() {
     setIsLoading(true);
     try {
       const res = await fetch("/api/products", { cache: "no-store" });
@@ -153,7 +153,7 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   // Open modal for Adding a new product
   const handleOpenAddModal = () => {
