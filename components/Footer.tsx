@@ -17,7 +17,7 @@ export default function Footer() {
   const socialLinks = [
     {
       label: "Instagram",
-      href: "https://www.instagram.com/goel.hub__2412/",
+      href: "https://www.instagram.com/pthubb",
       icon: <FaInstagram className="h-5 w-5" />,
     },
     // {
