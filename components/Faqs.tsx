@@ -53,7 +53,7 @@ export default function Faqs() {
   };
 
   return (
-    <section className="mx-auto w-full max-w-3xl space-y-7 px-4 sm:px-6 lg:px-8 py-6 md:py-12 border-t border-neutral-200/30 font-sans">
+    <section className="mx-auto w-full max-w-3xl space-y-5 px-4 sm:px-6 lg:px-8 py-4.5 md:py-10 border-t border-neutral-200/30 font-sans">
       <div className="space-y-3 text-center sm:text-left">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 border border-blue-200/20">
           <LuCircleHelp className="h-3.5 w-3.5" /> Support Center
@@ -68,7 +68,7 @@ export default function Faqs() {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-neutral-200/60 bg-white/50 divide-y divide-neutral-200/50 overflow-hidden shadow-sm backdrop-blur-sm">
+      <div className="rounded-xl border border-neutral-200/60 bg-white/50 divide-y divide-neutral-200/50 overflow-hidden shadow-sm backdrop-blur-sm">
         {FAQ_QUESTIONS.map((item) => {
           const isOpen = openId === item.id;
           return (

@@ -115,20 +115,31 @@ body {
 /* Inflected Card styles */
 .inflected-card {
   position: relative;
-  border-radius: var(--card-rounding, 24px);
+  border-radius: var(--card-rounding, 16px);
   overflow: hidden;
   --parent-bg: #ffffff;
   --button-bg: #4f46e5;
   --button-hover-bg: #4338ca;
 }
 
+@media (max-width: 640px) {
+  .inflected-card {
+    border-radius: var(--card-rounding, 12px);
+  }
+}
+
 .inflected-card-inner {
   position: relative;
   width: 100%;
   background: var(--parent-bg);
-  border-radius: var(--card-rounding, 24px);
-  /* border-bottom-right-radius: 0; */
+  border-radius: var(--card-rounding, 16px);
   overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .inflected-card-inner {
+    border-radius: var(--card-rounding, 12px);
+  }
 }
 
 .inflected-box {
@@ -229,7 +240,7 @@ body {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);

@@ -25,6 +25,7 @@ export default function FavoritesPage() {
   // Close modal if the currently selected product is removed from favorites
   useEffect(() => {
     if (selectedProduct && !favorites.includes(selectedProduct.id)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedProduct(null);
     }
   }, [favorites, selectedProduct]);

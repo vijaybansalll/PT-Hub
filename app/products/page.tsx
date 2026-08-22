@@ -46,6 +46,7 @@ function ProductsContent() {
   // Initialize selectedCategory from searchParams when it loads
   useEffect(() => {
     if (initialCategory) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedCategory(initialCategory);
     }
   }, [initialCategory]);
@@ -94,6 +95,7 @@ function ProductsContent() {
 
   // Reset pagination to first page when search filters change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
   }, [selectedCategory, searchQuery, sortBy]);
 
@@ -156,8 +158,8 @@ function ProductsContent() {
         {isLoading ? (
           <div className="grid grid-cols-1 gap-y-6 md:gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {[...Array(8)].map((_, idx) => (
-              <div key={idx} className="border border-neutral-200/50 bg-white p-3 rounded-[24px] space-y-4">
-                <Skeleton className="aspect-square w-full rounded-2xl bg-neutral-200/80 h-48 sm:h-64" />
+              <div key={idx} className="border border-neutral-200/50 bg-white p-3 rounded-xl space-y-4">
+                <Skeleton className="aspect-square w-full rounded-lg bg-neutral-200/80 h-48 sm:h-64" />
                 <div className="space-y-2 px-1">
                   <Skeleton className="h-4 w-1/4 bg-neutral-200" />
                   <Skeleton className="h-5 w-3/4 bg-neutral-200" />

@@ -50,13 +50,13 @@ export default function FilterBar({
             onValueChange={setSelectedCategory}
             className="w-full"
           >
-            <TabsList className="bg-neutral-100 p-0.5 rounded-full border border-neutral-200 flex gap-0.5 w-fit">
+            <TabsList className="bg-neutral-100 p-0.5 rounded-lg border border-neutral-200 flex gap-0.5 w-fit">
               {categories.map((category) => (
                 <TabsTrigger
                   key={category}
                   value={category}
                   className={cn(
-                    "px-4 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer",
+                    "px-4 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer",
                     selectedCategory === category
                       ? "bg-neutral-900 text-white shadow-sm"
                       : "text-neutral-650 hover:text-neutral-900"
@@ -82,7 +82,7 @@ export default function FilterBar({
               placeholder="Search premium products..."
               value={searchQuery.trim() === "" ? "" : searchQuery}
               onChange={(e) => setSearchQuery(e.target.value || " ")}
-              className="pl-10 pr-10 py-2.5 rounded-full h-10 text-sm bg-white placeholder-neutral-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full"
+              className="pl-10 pr-10 py-2.5 rounded-lg h-10 text-sm bg-white placeholder-neutral-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full"
               showTrigger={false}
               showClear={searchQuery.trim() !== ""}
             />
@@ -120,7 +120,7 @@ export default function FilterBar({
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-700 shadow-sm hover:bg-neutral-50 transition-all w-full sm:w-auto justify-between cursor-pointer">
+            className="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 shadow-sm hover:bg-neutral-50 transition-all w-full sm:w-auto justify-between cursor-pointer">
             <span className="flex items-center gap-1.5">
               <LuSlidersHorizontal className="h-4 w-4 text-blue-500" />
               Sort:{" "}
@@ -144,7 +144,7 @@ export default function FilterBar({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-56 origin-top-right rounded-2xl border border-neutral-200 bg-white p-2 shadow-xl ring-1 ring-black/5 z-50 focus:outline-none">
+                  className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl border border-neutral-200 bg-white p-2 shadow-xl ring-1 ring-black/5 z-50 focus:outline-none">
                   {Object.entries(sortLabels).map(([key, label]) => (
                     <button
                       key={key}
@@ -153,9 +153,9 @@ export default function FilterBar({
                         setIsDropdownOpen(false);
                       }}
                       className={cn(
-                        "flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
+                        "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
                         sortBy === key
-                          ? "bg-blue-500 text-white"
+                          ? "bg-blue-600 text-white"
                           : "text-neutral-700 hover:bg-neutral-100"
                       )}>
                       {label}

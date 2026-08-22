@@ -86,8 +86,8 @@ export default function Testimonials() {
   const doubleRow2 = [...row2, ...row2];
 
   return (
-    <section className="w-full py-8 md:py-16 bg-neutral-50/50 border-t border-neutral-200/30 overflow-hidden font-sans">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-5 md:mb-10 text-center sm:text-left">
+    <section className="w-full py-6 md:py-12 bg-neutral-50/50 border-t border-neutral-200/30 overflow-hidden font-sans">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-4 md:mb-8 text-center sm:text-left">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 border border-blue-200/20">
           <LuMessageSquare className="h-3.5 w-3.5" /> Customer Stories
         </div>
@@ -136,7 +136,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
     .slice(0, 2);
 
   return (
-    <div className="w-[300px] sm:w-[380px] shrink-0 p-3 md:p-6 rounded-2xl border border-neutral-200/50 bg-white shadow-sm flex flex-col justify-between hover:shadow-md hover:border-neutral-300 transition-all duration-300 backdrop-blur-sm">
+    <div className="w-[300px] sm:w-[380px] shrink-0 p-3 md:p-5 rounded-xl border border-neutral-200/50 bg-white shadow-sm flex flex-col justify-between hover:shadow-md hover:border-neutral-300 transition-all duration-300 backdrop-blur-sm">
       <div>
         {/* Stars and Bought Tag */}
         <div className="flex items-center justify-between mb-4">
@@ -151,13 +151,13 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         </div>
 
         {/* Content */}
-        <p className="text-xs md:text-sm text-neutral-600 leading-relaxed italic mb-1 md:mb-6">
+        <p className="text-xs md:text-sm text-neutral-600 leading-relaxed italic mb-1 md:mb-4">
           &ldquo;{testimonial.content}&rdquo;
         </p>
       </div>
 
       {/* Author Profile */}
-      <div className="flex items-center gap-3 border-t border-neutral-100 pt-2 md:pt-4">
+      <div className="flex items-center gap-3 border-t border-neutral-100 pt-2 md:pt-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-500 text-white text-xs font-extrabold shadow-sm select-none">
           {initials}
         </div>
